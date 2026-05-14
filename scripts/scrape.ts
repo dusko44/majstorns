@@ -83,6 +83,29 @@ async function fetchSerp(query: string, pageToken?: string): Promise<SerpRespons
   return res.json() as Promise<SerpResponse>;
 }
 
+// ── Extra queries per category slug ───────────────────────────────────────
+
+const EXTRA_QUERIES: Record<string, string[]> = {
+  limar: ["limarske usluge Novi Sad", "krovni lim Novi Sad", "lim majstor Novi Sad"],
+  stolar: ["stolarske usluge Novi Sad", "stolar majstor Novi Sad", "nameštaj po meri Novi Sad"],
+  vodoinstalater: ["vodoinstalaterske usluge Novi Sad", "instalacije vode Novi Sad", "vodoinstalater majstor Novi Sad"],
+  elektricar: ["elektricar majstor Novi Sad", "elektroinstalacije Novi Sad", "elektricarske usluge Novi Sad"],
+  automehanicar: ["auto servis Novi Sad", "servis automobila Novi Sad", "mehaničar Novi Sad"],
+  moler: ["molerske usluge Novi Sad", "moler farbara Novi Sad", "molerski radovi Novi Sad"],
+  "klima-servis": ["servis klime Novi Sad", "montaža klime Novi Sad", "klima uređaj servis Novi Sad"],
+  bravar: ["bravar majstor Novi Sad", "bravarija Novi Sad", "ključar Novi Sad"],
+  keramicar: ["postavljanje keramike Novi Sad", "keramicar majstor Novi Sad", "pločice Novi Sad"],
+  parketar: ["parketarske usluge Novi Sad", "postavljanje parketa Novi Sad", "parketar majstor Novi Sad"],
+  tapetar: ["tapetar majstor Novi Sad", "presvlačenje nameštaja Novi Sad", "tapetarske usluge Novi Sad"],
+  krovopokrivac: ["krovni radovi Novi Sad", "krovopokrivač Novi Sad", "popravka krova Novi Sad"],
+  staklorezac: ["staklara Novi Sad", "staklorezac majstor Novi Sad", "staklo servis Novi Sad"],
+  roletar: ["montaža roletni Novi Sad", "roletne Novi Sad", "tende i roletne Novi Sad"],
+  "auto-elektricar": ["auto elektrika Novi Sad", "servis auto elektrike Novi Sad", "auto elektricar majstor Novi Sad"],
+  vulkanizer: ["vulkanizerska radnja Novi Sad", "servis guma Novi Sad", "menjanje guma Novi Sad"],
+  "servis-bele-tehnike": ["popravka bele tehnike Novi Sad", "servis kućnih aparata Novi Sad", "popravka veš mašine Novi Sad"],
+  gradjevinar: ["građevinski radovi Novi Sad", "građevinska firma Novi Sad", "gradjevinar majstor Novi Sad"],
+};
+
 // ── Main ───────────────────────────────────────────────────────────────────
 
 async function main() {
@@ -116,62 +139,70 @@ async function main() {
   for (const cat of categories) {
     console.log(`\n📂 ${cat.name_sr}`);
 
-    let pageToken: string | undefined;
+    const queries = [
+      `${cat.name_sr} Novi Sad`,
+      ...(EXTRA_QUERIES[cat.slug] ?? []),
+    ];
 
-    for (let page = 0; page < 3; page++) {
-      try {
-        const query = `${cat.name_sr} Novi Sad`;
-        const data = await fetchSerp(query, pageToken);
-        totalApiCalls++;
+    for (const query of queries) {
+      let pageToken: string | undefined;
 
-        const results = data.local_results ?? [];
+      for (let page = 0; page < 3; page++) {
+        try {
+          const data = await fetchSerp(query, pageToken);
+          totalApiCalls++;
 
-        for (const r of results) {
-          const lat = r.gps_coordinates?.latitude;
-          const lng = r.gps_coordinates?.longitude;
+          const results = data.local_results ?? [];
 
-          if (lat == null || lng == null || !isInNS(lat, lng) || !r.place_id) {
-            totalSkipped++;
-            continue;
+          for (const r of results) {
+            const lat = r.gps_coordinates?.latitude;
+            const lng = r.gps_coordinates?.longitude;
+
+            if (lat == null || lng == null || !isInNS(lat, lng) || !r.place_id) {
+              totalSkipped++;
+              continue;
+            }
+
+            if (existingPlaceIds.has(r.place_id)) {
+              totalSkipped++;
+              continue;
+            }
+
+            const slug = makeUniqueSlug(slugify(r.title), usedSlugs);
+
+            const { error: insertErr } = await supabase.from("craftsmen").insert({
+              slug,
+              business_name: r.title,
+              category_id: cat.id,
+              address: r.address ?? "Novi Sad",
+              location: `SRID=4326;POINT(${lng} ${lat})`,
+              phone: r.phone ?? null,
+              google_place_id: r.place_id,
+              status: "pending",
+              source: "scraped",
+            });
+
+            if (insertErr) {
+              console.error(`  ✗ ${r.title}: ${insertErr.message}`);
+              totalErrors++;
+            } else {
+              existingPlaceIds.add(r.place_id);
+              totalInserted++;
+              console.log(`  ✓ ${r.title}`);
+            }
           }
 
-          if (existingPlaceIds.has(r.place_id)) {
-            totalSkipped++;
-            continue;
-          }
+          pageToken = data.serpapi_pagination?.next_page_token;
+          if (!pageToken) break;
 
-          const slug = makeUniqueSlug(slugify(r.title), usedSlugs);
-
-          const { error: insertErr } = await supabase.from("craftsmen").insert({
-            slug,
-            business_name: r.title,
-            category_id: cat.id,
-            address: r.address ?? "Novi Sad",
-            location: `SRID=4326;POINT(${lng} ${lat})`,
-            phone: r.phone ?? null,
-            google_place_id: r.place_id,
-            status: "pending",
-            source: "scraped",
-          });
-
-          if (insertErr) {
-            console.error(`  ✗ ${r.title}: ${insertErr.message}`);
-            totalErrors++;
-          } else {
-            existingPlaceIds.add(r.place_id);
-            totalInserted++;
-            console.log(`  ✓ ${r.title}`);
-          }
+          await new Promise((r) => setTimeout(r, 300));
+        } catch (err) {
+          console.error(`  Error on page ${page + 1} [${query}]:`, err);
+          break;
         }
-
-        pageToken = data.serpapi_pagination?.next_page_token;
-        if (!pageToken) break;
-
-        await new Promise((r) => setTimeout(r, 300));
-      } catch (err) {
-        console.error(`  Error on page ${page + 1}:`, err);
-        break;
       }
+
+      await new Promise((r) => setTimeout(r, 300));
     }
   }
 
