@@ -16,6 +16,26 @@ const DAYS_SR: Record<string, string> = {
 const DAY_ORDER = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
 const JS_TO_DAY = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
 
+// SerpApi vraća ključeve na srpskom ćirilicom kada je hl=sr
+const CYRILLIC_TO_EN: Record<string, string> = {
+  понедељак: "monday",
+  уторак: "tuesday",
+  среда: "wednesday",
+  четвртак: "thursday",
+  петак: "friday",
+  субота: "saturday",
+  недеља: "sunday",
+};
+
+function normalizeHours(raw: Record<string, unknown>): Record<string, string> {
+  const result: Record<string, string> = {};
+  for (const [key, val] of Object.entries(raw)) {
+    const en = CYRILLIC_TO_EN[key.toLowerCase()] ?? key;
+    result[en] = Array.isArray(val) ? String(val[0]) : String(val);
+  }
+  return result;
+}
+
 export async function generateMetadata({
   params,
 }: {
@@ -52,7 +72,8 @@ export default async function CraftsmanPage({
   if (!c) notFound();
 
   const todayKey = JS_TO_DAY[new Date().getDay()];
-  const hours = c.working_hours as Record<string, string[]> | null;
+  const rawHours = c.working_hours as Record<string, unknown> | null;
+  const hours = rawHours ? normalizeHours(rawHours) : null;
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-10">
@@ -86,6 +107,19 @@ export default async function CraftsmanPage({
               <p className="mt-2 text-zinc-500">{c.address}</p>
             )}
           </div>
+
+          {/* Telefon */}
+          {c.phone && (
+            <div className="flex items-center gap-3">
+              <span className="text-zinc-500 text-sm">Telefon:</span>
+              <a
+                href={`tel:${c.phone}`}
+                className="font-semibold text-zinc-900 hover:text-orange-500"
+              >
+                {c.phone}
+              </a>
+            </div>
+          )}
 
           {/* Kontakt dugmad */}
           <div className="flex flex-wrap gap-2">
@@ -158,9 +192,9 @@ export default async function CraftsmanPage({
                   const val = hours[day];
                   const isToday = day === todayKey;
                   const label = val
-                    ? val[0] === "Closed"
+                    ? val === "Closed" || val === "Zatvoreno" || val === "Затворено"
                       ? "Zatvoreno"
-                      : val[0]
+                      : val
                     : "—";
                   return (
                     <div
