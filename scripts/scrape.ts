@@ -12,6 +12,7 @@ interface SerpResult {
   address?: string;
   phone?: string;
   gps_coordinates?: { latitude: number; longitude: number };
+  operating_hours?: Record<string, string[]>;
 }
 
 interface SerpResponse {
@@ -178,6 +179,7 @@ async function main() {
               location: `SRID=4326;POINT(${lng} ${lat})`,
               phone: r.phone ?? null,
               google_place_id: r.place_id,
+              working_hours: r.operating_hours ?? null,
               status: "pending",
               source: "scraped",
             });

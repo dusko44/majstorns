@@ -1,26 +1,61 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #fafafa;
+  --foreground: #18181b;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-sans);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+html, body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+@layer utilities {
+  .category-card-outer {
+    background: rgba(0, 0, 0, 0.025);
+    border-radius: 1.5rem;
+    padding: 6px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    transition:
+      border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .category-card-outer:hover {
+    border-color: rgba(249, 115, 22, 0.5);
+    box-shadow:
+      0 0 0 3px rgba(249, 115, 22, 0.08),
+      0 8px 28px rgba(249, 115, 22, 0.15);
+    transform: translateY(-2px);
+  }
+
+  .category-card-outer:active {
+    transform: translateY(-1px) scale(0.99);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+.category-grid {
+  display: grid;
+  gap: 0.875rem;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+@media (min-width: 640px) {
+  .category-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .category-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
