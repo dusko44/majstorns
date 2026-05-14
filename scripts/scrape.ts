@@ -100,7 +100,8 @@ async function main() {
   // Load existing place IDs to skip duplicates
   const { data: existing } = await supabase
     .from("craftsmen")
-    .select("slug, google_place_id");
+    .select("slug, google_place_id")
+    .limit(100000);
 
   const existingPlaceIds = new Set(
     existing?.map((c) => c.google_place_id).filter(Boolean) ?? []
@@ -109,6 +110,7 @@ async function main() {
 
   let totalInserted = 0;
   let totalSkipped = 0;
+  let totalErrors = 0;
   let totalApiCalls = 0;
 
   for (const cat of categories) {
@@ -128,7 +130,7 @@ async function main() {
           const lat = r.gps_coordinates?.latitude;
           const lng = r.gps_coordinates?.longitude;
 
-          if (!lat || !lng || !isInNS(lat, lng) || !r.place_id) {
+          if (lat == null || lng == null || !isInNS(lat, lng) || !r.place_id) {
             totalSkipped++;
             continue;
           }
@@ -154,7 +156,7 @@ async function main() {
 
           if (insertErr) {
             console.error(`  ✗ ${r.title}: ${insertErr.message}`);
-            totalSkipped++;
+            totalErrors++;
           } else {
             existingPlaceIds.add(r.place_id);
             totalInserted++;
@@ -177,6 +179,7 @@ async function main() {
   console.log(`API pozivi:  ${totalApiCalls}`);
   console.log(`Upisano:     ${totalInserted}`);
   console.log(`Preskočeno:  ${totalSkipped}`);
+  console.log(`Greške:      ${totalErrors}`);
 }
 
 main().catch((err) => {
