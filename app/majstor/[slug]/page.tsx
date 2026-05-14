@@ -75,7 +75,32 @@ export default async function CraftsmanPage({
   const rawHours = c.working_hours as Record<string, unknown> | null;
   const hours = rawHours ? normalizeHours(rawHours) : null;
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    name: c.business_name,
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: c.address,
+      addressLocality: "Novi Sad",
+      addressCountry: "RS",
+    },
+    ...(c.phone && { telephone: c.phone }),
+    ...(c.website && { url: c.website }),
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: c.lat,
+      longitude: c.lng,
+    },
+    sameAs: `https://www.google.com/maps/search/?api=1&query=${c.lat},${c.lng}`,
+  };
+
   return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
     <div className="mx-auto max-w-5xl px-4 py-10">
       <div className="mb-6 text-sm text-zinc-500">
         <Link href={`/${c.category_slug}`} className="hover:text-zinc-900">
@@ -228,5 +253,6 @@ export default async function CraftsmanPage({
         </div>
       </div>
     </div>
+    </>
   );
 }
