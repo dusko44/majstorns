@@ -101,91 +101,91 @@ export default async function CraftsmanPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-    <div style={{ background: "#faf9f7", minHeight: "100vh" }}>
-    <div style={{ maxWidth: "64rem", margin: "0 auto", padding: "2.5rem 1.5rem 5rem" }}>
 
-      {/* Breadcrumb */}
-      <div style={{ display: "flex", alignItems: "center", gap: "0.375rem", fontSize: "0.8125rem", color: "#9ca3af", marginBottom: "2rem" }}>
-        <Link href={`/${c.category_slug}`} style={{ color: "#6b7280", fontWeight: 500 }}>
-          {c.category_name}
+      {/* Dark hero */}
+      <div style={{ background: "#0f0f0f", padding: "1.25rem 1.5rem 1.75rem" }}>
+        <Link
+          href={`/${c.category_slug}`}
+          style={{ fontSize: "0.75rem", color: "rgba(255,255,255,0.35)", textDecoration: "none", display: "inline-block", marginBottom: "0.875rem" }}
+        >
+          ← {c.category_name}
         </Link>
-        <span>›</span>
-        <span style={{ color: "#111827" }}>{c.business_name}</span>
-      </div>
 
-      <div style={{ display: "grid", gap: "2rem", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 26rem), 1fr))" }}>
-        {/* Mapa */}
-        <div style={{ overflow: "hidden", borderRadius: "1.25rem", border: "1px solid rgba(0,0,0,0.07)", boxShadow: "0 4px 20px rgba(0,0,0,0.05)", height: 380 }}>
-          <CraftsmanMapWrapper lat={c.lat} lng={c.lng} name={c.business_name} />
+        <div
+          style={{
+            display: "inline-flex", alignItems: "center", borderRadius: "999px",
+            background: "rgba(249,115,22,0.1)", border: "1px solid rgba(249,115,22,0.2)",
+            padding: "0.2rem 0.625rem", marginBottom: "0.625rem",
+          }}
+        >
+          <span style={{ fontSize: "0.625rem", color: "#f97316", fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase" }}>
+            {c.category_name}
+          </span>
         </div>
 
-        {/* Detalji */}
-        <div style={{ display: "flex", flexDirection: "column", gap: "1.75rem" }}>
+        <h1 style={{ fontSize: "clamp(1.5rem, 4vw, 2.5rem)", fontWeight: 800, color: "#ffffff", letterSpacing: "-0.025em", lineHeight: 1.1, marginBottom: "0.375rem" }}>
+          {c.business_name}
+        </h1>
+        {c.address && (
+          <p style={{ fontSize: "0.875rem", color: "rgba(255,255,255,0.35)", marginBottom: "1.25rem" }}>
+            📍 {c.address}
+          </p>
+        )}
 
-          {/* Naziv */}
-          <div>
-            <span style={{ fontSize: "0.75rem", fontWeight: 600, color: "#065f46", letterSpacing: "0.08em", textTransform: "uppercase" }}>
-              {c.category_name}
-            </span>
-            <h1 style={{ marginTop: "0.375rem", fontSize: "clamp(1.5rem, 3vw, 2rem)", fontWeight: 800, color: "#111827", letterSpacing: "-0.02em", lineHeight: 1.15 }}>
-              {c.business_name}
-            </h1>
-            {c.address && (
-              <p style={{ marginTop: "0.5rem", color: "#6b7280", fontSize: "0.9375rem" }}>{c.address}</p>
-            )}
-          </div>
-
-          {/* Telefon */}
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
           {c.phone && (
-            <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-              <span style={{ fontSize: "0.8125rem", color: "#9ca3af" }}>Telefon:</span>
-              <a href={`tel:${c.phone}`} style={{ fontWeight: 700, color: "#111827", fontSize: "1.0625rem" }}>
-                {c.phone}
-              </a>
-            </div>
+            <a
+              href={`tel:${c.phone}`}
+              style={{ display: "inline-flex", alignItems: "center", borderRadius: "999px", background: "#f97316", padding: "0.625rem 1.375rem 0.625rem 1.125rem", fontSize: "0.9375rem", fontWeight: 700, color: "#ffffff", textDecoration: "none", gap: "0.375rem" }}
+            >
+              📞 {c.phone}
+            </a>
           )}
+          <a
+            href={`https://www.google.com/maps/dir/?api=1&destination=${c.lat},${c.lng}`}
+            target="_blank" rel="noopener noreferrer"
+            style={{ display: "inline-flex", alignItems: "center", borderRadius: "999px", border: "1px solid rgba(255,255,255,0.15)", padding: "0.625rem 1rem", fontSize: "0.8125rem", fontWeight: 500, color: "rgba(255,255,255,0.75)", textDecoration: "none" }}
+          >
+            📍 Google Maps
+          </a>
+          <a
+            href={`https://waze.com/ul?ll=${c.lat},${c.lng}&navigate=yes`}
+            target="_blank" rel="noopener noreferrer"
+            style={{ display: "inline-flex", alignItems: "center", borderRadius: "999px", border: "1px solid rgba(255,255,255,0.15)", padding: "0.625rem 1rem", fontSize: "0.8125rem", fontWeight: 500, color: "rgba(255,255,255,0.75)", textDecoration: "none" }}
+          >
+            🧭 Waze
+          </a>
+          {c.viber && (
+            <a href={`viber://chat?number=${c.viber}`} style={{ display: "inline-flex", alignItems: "center", borderRadius: "999px", border: "1px solid rgba(255,255,255,0.15)", padding: "0.625rem 1rem", fontSize: "0.8125rem", fontWeight: 500, color: "rgba(255,255,255,0.75)", textDecoration: "none" }}>
+              Viber
+            </a>
+          )}
+          {c.whatsapp && (
+            <a href={`https://wa.me/${c.whatsapp}`} target="_blank" rel="noopener noreferrer" style={{ display: "inline-flex", alignItems: "center", borderRadius: "999px", border: "1px solid rgba(255,255,255,0.15)", padding: "0.625rem 1rem", fontSize: "0.8125rem", fontWeight: 500, color: "rgba(255,255,255,0.75)", textDecoration: "none" }}>
+              WhatsApp
+            </a>
+          )}
+          {c.website && (
+            <a href={c.website} target="_blank" rel="noopener noreferrer" style={{ display: "inline-flex", alignItems: "center", borderRadius: "999px", border: "1px solid rgba(255,255,255,0.15)", padding: "0.625rem 1rem", fontSize: "0.8125rem", fontWeight: 500, color: "rgba(255,255,255,0.75)", textDecoration: "none" }}>
+              Sajt
+            </a>
+          )}
+        </div>
+      </div>
 
-          {/* Kontakt dugmad */}
-          <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
-            {c.phone && (
-              <a href={`tel:${c.phone}`} style={{ display: "inline-flex", alignItems: "center", borderRadius: "0.75rem", background: "#111827", padding: "0.625rem 1.25rem", fontSize: "0.875rem", fontWeight: 600, color: "#ffffff" }}>
-                Pozovi
-              </a>
-            )}
-            {c.viber && (
-              <a href={`viber://chat?number=${c.viber}`} style={{ display: "inline-flex", alignItems: "center", borderRadius: "0.75rem", background: "#7c3aed", padding: "0.625rem 1.25rem", fontSize: "0.875rem", fontWeight: 600, color: "#ffffff" }}>
-                Viber
-              </a>
-            )}
-            {c.whatsapp && (
-              <a href={`https://wa.me/${c.whatsapp}`} target="_blank" rel="noopener noreferrer" style={{ display: "inline-flex", alignItems: "center", borderRadius: "0.75rem", background: "#16a34a", padding: "0.625rem 1.25rem", fontSize: "0.875rem", fontWeight: 600, color: "#ffffff" }}>
-                WhatsApp
-              </a>
-            )}
-            {c.website && (
-              <a href={c.website} target="_blank" rel="noopener noreferrer" style={{ display: "inline-flex", alignItems: "center", borderRadius: "0.75rem", border: "1px solid rgba(0,0,0,0.1)", padding: "0.625rem 1.25rem", fontSize: "0.875rem", fontWeight: 500, color: "#111827" }}>
-                Sajt
-              </a>
-            )}
+      {/* Mapa + radno vreme */}
+      <div style={{ background: "#faf9f7", minHeight: "60vh" }}>
+        <div style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}>
+          <div style={{ flex: "1 1 340px", minHeight: 340 }}>
+            <CraftsmanMapWrapper lat={c.lat} lng={c.lng} name={c.business_name} />
           </div>
 
-          {/* Navigacija */}
-          <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
-            <a href={`https://www.google.com/maps/dir/?api=1&destination=${c.lat},${c.lng}`} target="_blank" rel="noopener noreferrer" style={{ display: "inline-flex", alignItems: "center", gap: "0.375rem", borderRadius: "0.75rem", border: "1px solid rgba(0,0,0,0.1)", padding: "0.625rem 1.25rem", fontSize: "0.875rem", fontWeight: 500, color: "#111827" }}>
-              📍 Google Maps
-            </a>
-            <a href={`https://waze.com/ul?ll=${c.lat},${c.lng}&navigate=yes`} target="_blank" rel="noopener noreferrer" style={{ display: "inline-flex", alignItems: "center", gap: "0.375rem", borderRadius: "0.75rem", border: "1px solid rgba(0,0,0,0.1)", padding: "0.625rem 1.25rem", fontSize: "0.875rem", fontWeight: 500, color: "#111827" }}>
-              🗺 Waze
-            </a>
-          </div>
-
-          {/* Radno vreme */}
           {hours && (
-            <div>
-              <h2 style={{ marginBottom: "0.75rem", fontSize: "0.6875rem", fontWeight: 600, color: "#9ca3af", letterSpacing: "0.12em", textTransform: "uppercase" }}>
+            <div style={{ flex: "0 0 300px", padding: "1.5rem", borderLeft: "1px solid rgba(0,0,0,0.06)" }}>
+              <h2 style={{ fontSize: "0.6875rem", fontWeight: 600, color: "#9ca3af", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "0.875rem" }}>
                 Radno vreme
               </h2>
-              <div style={{ overflow: "hidden", borderRadius: "1rem", border: "1px solid rgba(0,0,0,0.07)", background: "#ffffff" }}>
+              <div style={{ borderRadius: "0.875rem", border: "1px solid rgba(0,0,0,0.07)", background: "#ffffff", overflow: "hidden" }}>
                 {DAY_ORDER.map((day) => {
                   const val = hours[day];
                   const isToday = day === todayKey;
@@ -201,15 +201,15 @@ export default async function CraftsmanPage({
                         display: "flex",
                         justifyContent: "space-between",
                         borderBottom: "1px solid rgba(0,0,0,0.05)",
-                        padding: "0.625rem 1rem",
-                        fontSize: "0.875rem",
-                        background: isToday ? "rgba(6,95,70,0.04)" : "transparent",
+                        padding: "0.5rem 0.875rem",
+                        fontSize: "0.8125rem",
+                        background: isToday ? "rgba(249,115,22,0.04)" : "transparent",
                       }}
                     >
-                      <span style={{ fontWeight: isToday ? 600 : 400, color: isToday ? "#065f46" : "#6b7280" }}>
+                      <span style={{ fontWeight: isToday ? 600 : 400, color: isToday ? "#f97316" : "#6b7280" }}>
                         {DAYS_SR[day]}
                       </span>
-                      <span style={{ fontWeight: isToday ? 600 : 500, color: isToday ? "#065f46" : "#111827" }}>
+                      <span style={{ fontWeight: isToday ? 600 : 500, color: isToday ? "#f97316" : "#111827" }}>
                         {label}
                       </span>
                     </div>
@@ -220,8 +220,6 @@ export default async function CraftsmanPage({
           )}
         </div>
       </div>
-    </div>
-    </div>
     </>
   );
 }
