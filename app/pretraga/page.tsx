@@ -40,7 +40,7 @@ export default async function PretragaPage({
           </h1>
           {term && (
             <p style={{ marginTop: "0.375rem", fontSize: "0.875rem", color: "#6b7280" }}>
-              {results.length} {results.length === 1 ? "rezultat" : results.length < 5 ? "rezultata" : "rezultata"}
+              {results.length} {results.length === 1 ? "rezultat" : "rezultata"}
             </p>
           )}
         </div>
