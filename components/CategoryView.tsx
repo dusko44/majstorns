@@ -69,16 +69,16 @@ export function CategoryView({
       {/* Lista */}
       <div className="flex flex-1 flex-col overflow-hidden lg:w-2/5">
         {userPos ? (
-          <div className="border-b border-zinc-200 bg-white px-4 py-2 text-xs text-zinc-500">
+          <div style={{ borderBottom: "1px solid rgba(0,0,0,0.07)", background: "#fff", padding: "0.5rem 1rem", fontSize: "0.75rem", color: "#065f46", fontWeight: 500 }}>
             Sortirano po udaljenosti od vas
           </div>
         ) : (
-          <div className="border-b border-zinc-200 bg-white px-4 py-2 text-xs text-zinc-400">
+          <div style={{ borderBottom: "1px solid rgba(0,0,0,0.07)", background: "#fff", padding: "0.5rem 1rem", fontSize: "0.75rem", color: "#9ca3af" }}>
             Dozvolite lokaciju za sortiranje po udaljenosti
           </div>
         )}
 
-        <div className="flex-1 overflow-y-auto divide-y divide-zinc-100">
+        <div style={{ flex: 1, overflowY: "auto" }}>
           {sorted.map((c) => {
             const dist = userPos
               ? haversineKm(userPos.lat, userPos.lng, c.lat, c.lng)
@@ -88,38 +88,40 @@ export function CategoryView({
             return (
               <div
                 key={c.id}
-                className={`cursor-pointer px-4 py-4 transition-colors hover:bg-zinc-50 ${
-                  isSelected ? "bg-orange-50" : "bg-white"
-                }`}
                 onClick={() => handleSelect(c)}
+                style={{
+                  cursor: "pointer",
+                  padding: "1rem",
+                  borderBottom: "1px solid rgba(0,0,0,0.06)",
+                  background: isSelected ? "#fff8f5" : "#ffffff",
+                  transition: "background 0.2s",
+                }}
               >
-                <div className="flex items-start justify-between gap-2">
-                  <div className="min-w-0 flex-1">
-                    <div className="flex items-center gap-2">
-                      <span className="font-semibold text-zinc-900 truncate">
+                <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: "0.5rem" }}>
+                  <div style={{ minWidth: 0, flex: 1 }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                      <span style={{ fontWeight: 600, color: "#111827", fontSize: "0.9375rem", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                         {c.business_name}
                       </span>
                       {dist !== null && (
-                        <span className="flex-shrink-0 rounded-full bg-zinc-100 px-2 py-0.5 text-xs text-zinc-500">
-                          {dist < 1
-                            ? `${Math.round(dist * 1000)} m`
-                            : `${dist.toFixed(1)} km`}
+                        <span style={{ flexShrink: 0, borderRadius: "999px", background: "rgba(6,95,70,0.08)", padding: "0.125rem 0.5rem", fontSize: "0.6875rem", color: "#065f46", fontWeight: 500 }}>
+                          {dist < 1 ? `${Math.round(dist * 1000)} m` : `${dist.toFixed(1)} km`}
                         </span>
                       )}
                     </div>
                     {c.address && (
-                      <p className="mt-0.5 text-sm text-zinc-500 truncate">
+                      <p style={{ marginTop: "0.25rem", fontSize: "0.8125rem", color: "#6b7280", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                         {c.address}
                       </p>
                     )}
                   </div>
                 </div>
 
-                <div className="mt-3 flex flex-wrap gap-2">
+                <div style={{ marginTop: "0.75rem", display: "flex", flexWrap: "wrap", gap: "0.375rem" }}>
                   <Link
                     href={`/majstor/${c.slug}`}
                     onClick={(e) => e.stopPropagation()}
-                    className="rounded-lg bg-zinc-900 px-3 py-1.5 text-xs font-medium text-white hover:bg-zinc-700"
+                    style={{ borderRadius: "0.5rem", background: "#111827", padding: "0.375rem 0.75rem", fontSize: "0.75rem", fontWeight: 600, color: "#ffffff" }}
                   >
                     Pogledaj profil
                   </Link>
@@ -127,7 +129,7 @@ export function CategoryView({
                     <a
                       href={`tel:${c.phone}`}
                       onClick={(e) => e.stopPropagation()}
-                      className="rounded-lg border border-zinc-200 px-3 py-1.5 text-xs font-medium text-zinc-700 hover:bg-zinc-50"
+                      style={{ borderRadius: "0.5rem", border: "1px solid rgba(0,0,0,0.1)", padding: "0.375rem 0.75rem", fontSize: "0.75rem", fontWeight: 500, color: "#374151" }}
                     >
                       Pozovi
                     </a>
@@ -137,7 +139,7 @@ export function CategoryView({
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={(e) => e.stopPropagation()}
-                    className="rounded-lg border border-zinc-200 px-3 py-1.5 text-xs font-medium text-zinc-700 hover:bg-zinc-50"
+                    style={{ borderRadius: "0.5rem", border: "1px solid rgba(0,0,0,0.1)", padding: "0.375rem 0.75rem", fontSize: "0.75rem", fontWeight: 500, color: "#374151" }}
                   >
                     Navigiraj
                   </a>

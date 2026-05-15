@@ -50,11 +50,11 @@ export default async function CategoryPage({
 
   return (
     <div>
-      <div className="border-b border-zinc-200 bg-white px-6 py-3">
-        <h1 className="text-lg font-semibold text-zinc-900">
+      <div style={{ background: "#ffffff", borderBottom: "1px solid rgba(0,0,0,0.07)", padding: "1rem 1.5rem" }}>
+        <h1 style={{ fontSize: "1.125rem", fontWeight: 700, color: "#111827", letterSpacing: "-0.01em" }}>
           {category.plural} u Novom Sadu
         </h1>
-        <p className="text-sm text-zinc-500">
+        <p style={{ fontSize: "0.8125rem", color: "#6b7280", marginTop: "0.125rem" }}>
           {craftsmen.length} majstora pronađeno
         </p>
       </div>

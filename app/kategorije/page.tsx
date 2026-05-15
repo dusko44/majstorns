@@ -10,13 +10,19 @@ export const metadata: Metadata = {
 
 export default function KategorijeePage() {
   return (
+    <div style={{ background: "#faf9f7", minHeight: "100vh" }}>
     <div style={{ maxWidth: "72rem", margin: "0 auto", padding: "4rem 1.5rem 6rem" }}>
       <div style={{ marginBottom: "3rem" }}>
         <div
           className="inline-flex items-center rounded-full"
-          style={{ background: "#f3f4f6", padding: "0.3rem 0.875rem", marginBottom: "1.25rem" }}
+          style={{
+            background: "rgba(249,115,22,0.08)",
+            border: "1px solid rgba(249,115,22,0.15)",
+            padding: "0.3rem 0.875rem",
+            marginBottom: "1.25rem",
+          }}
         >
-          <span style={{ color: "#6b7280", fontSize: "0.6875rem", fontWeight: 600, letterSpacing: "0.15em", textTransform: "uppercase" }}>
+          <span style={{ color: "#f97316", fontSize: "0.6875rem", fontWeight: 600, letterSpacing: "0.15em", textTransform: "uppercase" }}>
             Sve kategorije
           </span>
         </div>
@@ -31,7 +37,7 @@ export default function KategorijeePage() {
         >
           18 zanata
         </h1>
-        <p style={{ color: "#9ca3af", marginTop: "0.75rem", fontSize: "1rem" }}>
+        <p style={{ color: "#111827", marginTop: "0.75rem", fontSize: "1.125rem" }}>
           Odaberi zanat i pronađi najbliže majstore u Novom Sadu.
         </p>
       </div>
@@ -40,6 +46,7 @@ export default function KategorijeePage() {
           <CategoryCard key={category.slug} category={category} index={i} />
         ))}
       </div>
+    </div>
     </div>
   );
 }
