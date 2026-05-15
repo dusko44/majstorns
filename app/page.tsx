@@ -1,13 +1,15 @@
 import Link from "next/link";
 import { CATEGORIES } from "@/lib/categories";
 import { CategoryCard } from "@/components/CategoryCard";
+import { HeroIllustration } from "@/components/HeroIllustration";
 
 export default function Home() {
   return (
     <>
       {/* Hero */}
       <section style={{ background: "#0f0f0f", minHeight: "88vh", display: "flex", alignItems: "center" }}>
-        <div style={{ maxWidth: "72rem", margin: "0 auto", padding: "6rem 1.5rem", width: "100%" }}>
+        <div style={{ maxWidth: "72rem", margin: "0 auto", padding: "6rem 1.5rem", width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <div style={{ flex: 1 }}>
           {/* Eyebrow pill */}
           <div
             className="inline-flex items-center rounded-full"
@@ -74,6 +76,11 @@ export default function Home() {
               →
             </span>
           </Link>
+        </div>
+        {/* Ilustracija alata — vidljiva samo na lg+ */}
+        <div className="hero-illustration">
+          <HeroIllustration />
+        </div>
         </div>
       </section>
 

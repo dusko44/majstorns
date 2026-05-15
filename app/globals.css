@@ -59,3 +59,18 @@ html, body {
     grid-template-columns: repeat(4, 1fr);
   }
 }
+
+.hero-illustration {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .hero-illustration {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 380px;
+    height: 440px;
+    flex-shrink: 0;
+  }
+}
