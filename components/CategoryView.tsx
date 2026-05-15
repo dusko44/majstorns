@@ -114,11 +114,11 @@ export function CategoryView({
                   </div>
                 </div>
 
-                <div style={{ marginTop: "0.5rem", display: "flex", gap: "0.3rem" }}>
+                <div style={{ marginTop: "0.5rem", display: "flex", alignItems: "center", gap: "0.3rem", flexWrap: "wrap" }}>
                   <Link
                     href={`/majstor/${c.slug}`}
                     onClick={(e) => e.stopPropagation()}
-                    style={{ borderRadius: "0.5rem", background: "#111827", padding: "0.3rem 0.625rem", fontSize: "0.6875rem", fontWeight: 600, color: "#ffffff", textDecoration: "none" }}
+                    style={{ borderRadius: "0.5rem", background: "#111827", padding: "0.3rem 0.625rem", fontSize: "0.6875rem", fontWeight: 600, color: "#ffffff", textDecoration: "none", flexShrink: 0 }}
                   >
                     Profil →
                   </Link>
@@ -126,9 +126,9 @@ export function CategoryView({
                     <a
                       href={`tel:${c.phone}`}
                       onClick={(e) => e.stopPropagation()}
-                      style={{ borderRadius: "0.5rem", border: "1px solid rgba(0,0,0,0.1)", padding: "0.3rem 0.625rem", fontSize: "0.6875rem", fontWeight: 500, color: "#374151", textDecoration: "none" }}
+                      style={{ fontSize: "0.6875rem", fontWeight: 600, color: "#f97316", textDecoration: "none", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}
                     >
-                      Pozovi
+                      📞 {c.phone}
                     </a>
                   )}
                 </div>
