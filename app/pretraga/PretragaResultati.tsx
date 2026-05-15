@@ -52,9 +52,9 @@ function Kartica({ r }: { r: Result }) {
           <a
             href={`tel:${r.phone}`}
             onClick={e => e.stopPropagation()}
-            style={{ borderRadius: "0.625rem", border: "1px solid rgba(0,0,0,0.1)", padding: "0.375rem 0.75rem", fontSize: "0.75rem", fontWeight: 500, color: "#374151", textDecoration: "none" }}
+            style={{ borderRadius: "0.625rem", background: "#f97316", padding: "0.375rem 0.75rem", fontSize: "0.75rem", fontWeight: 700, color: "#ffffff", textDecoration: "none", whiteSpace: "nowrap" }}
           >
-            Pozovi
+            📞 {r.phone}
           </a>
         )}
         <span style={{ borderRadius: "0.625rem", background: "#111827", padding: "0.375rem 0.75rem", fontSize: "0.75rem", fontWeight: 600, color: "#ffffff" }}>
