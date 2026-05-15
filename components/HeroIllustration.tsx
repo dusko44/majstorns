@@ -2,20 +2,23 @@ import Image from "next/image";
 
 export function HeroIllustration() {
   return (
-    <Image
-      src="/hero-tools.jpg"
-      alt="Majstorski alati — čekić, ključ, odvijač, testera"
-      width={380}
-      height={506}
-      priority
-      style={{
-        width: "100%",
-        height: "100%",
-        objectFit: "contain",
-        borderRadius: "1rem",
-        opacity: 0.9,
-      }}
-    />
+    <div className="hero-illustration">
+      <Image
+        src="/hero-tools.jpg"
+        alt=""
+        aria-hidden="true"
+        width={220}
+        height={294}
+        priority
+        style={{
+          width: "100%",
+          height: "100%",
+          objectFit: "contain",
+          mixBlendMode: "screen",
+          opacity: 0.28,
+        }}
+      />
+    </div>
   );
 }
 

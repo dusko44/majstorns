@@ -66,11 +66,12 @@ html, body {
 
 @media (min-width: 1024px) {
   .hero-illustration {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 380px;
-    height: 440px;
-    flex-shrink: 0;
+    display: block;
+    position: absolute;
+    bottom: -1.5rem;
+    right: 12rem;
+    width: 160px;
+    height: 214px;
+    pointer-events: none;
   }
 }
