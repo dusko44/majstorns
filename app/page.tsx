@@ -50,7 +50,7 @@ export default function Home() {
               marginBottom: "3rem",
             }}
           >
-            18 zanata. Sortirani po udaljenosti. Pozovi direktno.
+            Najveća baza majstora i zanata za Novi Sad i okolinu
           </p>
 
           {/* Button-in-button CTA */}
@@ -78,18 +78,12 @@ export default function Home() {
       </section>
 
       {/* Kategorije */}
-      <section style={{ background: "#f9fafb", padding: "6rem 1.5rem" }}>
+      <section style={{ background: "#faf9f7", padding: "6rem 1.5rem" }}>
         <div style={{ maxWidth: "72rem", margin: "0 auto" }}>
-          <div className="flex items-center justify-between" style={{ marginBottom: "2.5rem" }}>
-            <p style={{ color: "#9ca3af", fontSize: "0.875rem" }}>
+          <div style={{ marginBottom: "3rem" }}>
+            <p style={{ color: "#111827", fontSize: "1.25rem", fontWeight: 400, lineHeight: 1.5 }}>
               Odaberi zanate i vidi najbliže majstore na mapi
             </p>
-            <Link
-              href="/kategorije"
-              style={{ color: "#111827", fontSize: "0.875rem", fontWeight: 500, transition: "color 0.2s" }}
-            >
-              Sve kategorije →
-            </Link>
           </div>
           <div className="category-grid">
             {CATEGORIES.map((category, i) => (
