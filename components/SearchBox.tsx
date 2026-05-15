@@ -33,23 +33,7 @@ export function SearchBox() {
     timerRef.current = setTimeout(async () => {
       setLoading(true);
       const supabase = createSupabaseBrowserClient();
-      const words = term.split(/\s+/).filter(Boolean);
-
-      // Svaka riječ dobija svoj upit, pa presjecamo slugove
-      const wordResults = await Promise.all(
-        words.map(word =>
-          supabase
-            .from("craftsmen_map_view")
-            .select("slug, business_name, category_name, address")
-            .or(`business_name.ilike.%${word}%,category_name.ilike.%${word}%`)
-            .limit(100)
-        )
-      );
-
-      const slugSets = wordResults.map(r => new Set((r.data ?? []).map(x => x.slug)));
-      const matchingSlugs = [...slugSets[0]].filter(slug => slugSets.every(s => s.has(slug)));
-      const allData = wordResults[0].data ?? [];
-      const data = allData.filter(x => matchingSlugs.includes(x.slug)).slice(0, 7);
+      const { data } = await supabase.rpc("search_craftsmen", { term }).limit(7);
       setResults(data ?? []);
       setOpen(true);
       setLoading(false);

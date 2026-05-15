@@ -13,20 +13,7 @@ export async function generateMetadata({
 
 async function search(term: string) {
   const supabase = await createSupabaseServerClient();
-  const words = term.trim().split(/\s+/).filter(Boolean);
-
-  // Jedna query: svaka riječ mora matchovati u bar jednom polju (chained AND)
-  let q = supabase
-    .from("craftsmen_map_view")
-    .select("slug, business_name, category_name, address, phone");
-
-  for (const word of words) {
-    q = (q as typeof q).or(
-      `business_name.ilike.%${word}%,category_name.ilike.%${word}%`
-    );
-  }
-
-  const { data, error } = await q.limit(200);
+  const { data, error } = await supabase.rpc("search_craftsmen", { term: term.trim() });
   if (error) console.error("Search error:", error);
   return data ?? [];
 }
