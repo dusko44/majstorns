@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 
@@ -16,6 +17,7 @@ export function SearchBox() {
   const [results, setResults] = useState<Result[]>([]);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
   const containerRef = useRef<HTMLDivElement>(null);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -89,7 +91,7 @@ export function SearchBox() {
             if (e.key === "Escape") { setOpen(false); return; }
             if (e.key === "Enter") {
               const val = query.trim();
-              if (val) window.location.href = `/pretraga?q=${encodeURIComponent(val)}`;
+              if (val) router.push(`/pretraga?q=${encodeURIComponent(val)}`);
             }
           }}
           placeholder="Traži majstora…"
@@ -107,7 +109,7 @@ export function SearchBox() {
           type="button"
           onClick={() => {
             const val = query.trim();
-            if (val) window.location.href = `/pretraga?q=${encodeURIComponent(val)}`;
+            if (val) router.push(`/pretraga?q=${encodeURIComponent(val)}`);
           }}
           className="flex items-center justify-center rounded-full"
           style={{ width: "2.25rem", height: "2.25rem", background: "rgba(0,0,0,0.18)", flexShrink: 0, border: "none", cursor: "pointer" }}
