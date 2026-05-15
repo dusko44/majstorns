@@ -1,13 +1,14 @@
-import Link from "next/link";
 import { CATEGORIES } from "@/lib/categories";
 import { CategoryCard } from "@/components/CategoryCard";
 import { HeroIllustration } from "@/components/HeroIllustration";
+import { SearchBox } from "@/components/SearchBox";
+import Link from "next/link";
 
 export default function Home() {
   return (
     <>
       {/* Hero */}
-      <section style={{ background: "#0f0f0f", minHeight: "88vh", display: "flex", alignItems: "center", position: "relative", overflow: "hidden" }}>
+      <section style={{ background: "#0f0f0f", minHeight: "88vh", display: "flex", alignItems: "center", position: "relative", zIndex: 1 }}>
         <div style={{ maxWidth: "72rem", margin: "0 auto", padding: "6rem 1.5rem", width: "100%" }}>
         <div>
           {/* Eyebrow pill */}
@@ -55,27 +56,8 @@ export default function Home() {
             Najveća baza majstora i zanata za Novi Sad i okolinu
           </p>
 
-          {/* Button-in-button CTA */}
-          <Link
-            href="/kategorije"
-            className="inline-flex items-center rounded-full font-semibold"
-            style={{
-              background: "#f97316",
-              color: "#ffffff",
-              padding: "0.875rem 0.875rem 0.875rem 1.75rem",
-              gap: "0.75rem",
-              fontSize: "0.9375rem",
-              transition: "background 0.3s cubic-bezier(0.32,0.72,0,1)",
-            }}
-          >
-            Traži majstora
-            <span
-              className="flex items-center justify-center rounded-full"
-              style={{ width: "2.25rem", height: "2.25rem", background: "rgba(0,0,0,0.18)", flexShrink: 0 }}
-            >
-              →
-            </span>
-          </Link>
+          {/* Search CTA */}
+          <SearchBox />
         </div>
         </div>
         <HeroIllustration />

@@ -7,7 +7,7 @@ Baza podataka nema ni jednog majstora. Potrebno je jednokratno (i ponovljivo) pu
 
 ## Cilj
 
-Upisati ~20 majstora po svakoj od 18 kategorija (≈360 ukupno) u Supabase `craftsmen` tabelu,
+Upisati ~60 majstora po svakoj od 18 kategorija (≈1.000 ukupno, 3 stranice × 20 rezultata) u Supabase `craftsmen` tabelu,
 sa tačnim koordinatama, brojevima telefona i google_place_id za dedupliciranje.
 
 ---
@@ -43,19 +43,22 @@ SUPABASE_SERVICE_ROLE_KEY=<iz Supabase dashboard → Settings → API → servic
 ```
 1. Učitaj kategorije iz Supabase → Map<categorySlug, uuid>
 2. Za svaku od 18 kategorija:
-   a. Pozovi SerpApi: engine=google_maps, q="{category.name} Novi Sad", hl=sr, gl=rs
+   a. Pozovi SerpApi (str. 1): engine=google_maps, q="{category.name} Novi Sad", hl=sr, gl=rs
    b. Filtriraj rezultate: lat 45.19–45.34, lng 19.69–19.93 (NS bounding box)
    c. Za svaki rezultat:
       - Slugify naziva firme
       - Proveri jedinstvenost slug-a u bazi
       - INSERT u craftsmen (on conflict google_place_id → skip)
-   d. Pauza 300ms pre sledećeg kategorijskog upita
-3. Ispiši summary: X upisano, Y preskočeno
+   d. Ako odgovor sadrži next_page_token i stranica < 3: ponovi od (a) sa tokenom
+   e. Pauza 300ms između poziva
+3. Ispiši summary: X upisano, Y preskočeno, Z API poziva
 ```
 
 ---
 
 ## SerpApi poziv
+
+Po kategoriji se šalju do 3 stranice (svaka vraća max 20 rezultata → ~60 po kategoriji).
 
 ```
 GET https://serpapi.com/search
@@ -65,7 +68,10 @@ GET https://serpapi.com/search
   gl=rs
   type=search
   api_key=${SERPAPI_KEY}
+  next_page_token={token}   ← samo za str. 2 i 3
 ```
+
+Paginacija: odgovor sadrži `serpapi_pagination.next_page_token` — ako postoji i nismo prešli 3 stranice, šaljemo sledeći poziv s tim tokenom.
 
 ### Struktura odgovora
 
