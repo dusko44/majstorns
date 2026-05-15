@@ -179,9 +179,8 @@ export default async function CraftsmanPage({
       </div>
 
       {/* Mapa + radno vreme */}
-      <div style={{ background: "#faf9f7", minHeight: "60vh" }}>
-        <div style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}>
-          <div style={{ flex: "1 1 340px", minHeight: 340 }}>
+      <div style={{ background: "#faf9f7", height: "calc(100vh - 295px)", minHeight: 420, display: "flex", flexDirection: "row", flexWrap: "wrap" }}>
+          <div style={{ flex: "1 1 340px", height: "100%" }}>
             <CraftsmanMapWrapper lat={c.lat} lng={c.lng} name={c.business_name} />
           </div>
 
@@ -223,7 +222,6 @@ export default async function CraftsmanPage({
               </div>
             </div>
           )}
-        </div>
       </div>
     </>
   );
