@@ -179,13 +179,13 @@ export default async function CraftsmanPage({
       </div>
 
       {/* Mapa + radno vreme */}
-      <div style={{ background: "#faf9f7", height: "calc(100vh - 295px)", minHeight: 420, display: "flex", flexDirection: "row", flexWrap: "wrap" }}>
-          <div style={{ flex: "1 1 340px", height: "100%" }}>
+      <div className="craftsman-map-section">
+          <div className="map-pane">
             <CraftsmanMapWrapper lat={c.lat} lng={c.lng} name={c.business_name} />
           </div>
 
           {hours && (
-            <div style={{ flex: "0 0 300px", padding: "1.5rem", borderLeft: "1px solid rgba(0,0,0,0.06)" }}>
+            <div className="hours-pane">
               <h2 style={{ fontSize: "0.6875rem", fontWeight: 600, color: "#9ca3af", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "0.875rem" }}>
                 Radno vreme
               </h2>

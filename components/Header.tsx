@@ -24,10 +24,10 @@ export function Header() {
         </Link>
         <nav
           className="flex items-center text-sm font-medium"
-          style={{ gap: "2rem", color: "#9ca3af" }}
+          style={{ gap: "1.25rem", color: "#9ca3af" }}
         >
           <Link href="/kategorije" className="transition hover:text-zinc-900">Kategorije</Link>
-          <Link href="/o-nama" className="transition hover:text-zinc-900">Kako funkcioniše</Link>
+          <Link href="/o-nama" className="hidden sm:block transition hover:text-zinc-900">Kako funkcioniše</Link>
           <Link href="/o-nama" className="transition hover:text-zinc-900">O nama</Link>
         </nav>
       </div>

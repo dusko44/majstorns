@@ -60,6 +60,42 @@ html, body {
   }
 }
 
+.craftsman-map-section {
+  background: #faf9f7;
+  display: flex;
+  flex-direction: column;
+}
+
+.craftsman-map-section .map-pane {
+  height: 280px;
+  flex-shrink: 0;
+}
+
+.craftsman-map-section .hours-pane {
+  padding: 1.25rem 1.5rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+@media (min-width: 768px) {
+  .craftsman-map-section {
+    flex-direction: row;
+    height: calc(100vh - 295px);
+    min-height: 420px;
+  }
+
+  .craftsman-map-section .map-pane {
+    flex: 1 1 340px;
+    height: 100%;
+  }
+
+  .craftsman-map-section .hours-pane {
+    flex: 0 0 300px;
+    padding: 1.5rem;
+    border-top: none;
+    border-left: 1px solid rgba(0, 0, 0, 0.06);
+  }
+}
+
 .hero-illustration {
   display: none;
 }
