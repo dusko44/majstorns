@@ -68,10 +68,10 @@ html, body {
   .hero-illustration {
     display: block;
     position: absolute;
-    bottom: -1rem;
-    right: 12rem;
-    width: 180px;
-    height: 240px;
+    bottom: 6%;
+    right: 6rem;
+    width: 128px;
+    height: 128px;
     pointer-events: none;
   }
 }
