@@ -120,7 +120,7 @@ export default async function AdminPage({
           </thead>
           <tbody>
             {craftsmen?.map((c, i) => {
-              const cat = c.categories as { name_sr: string } | null;
+              const cat = (Array.isArray(c.categories) ? c.categories[0] : c.categories) as { name_sr: string } | null;
               return (
                 <tr key={c.id} style={{ borderBottom: "1px solid #f3f4f6", background: i % 2 === 0 ? "#fff" : "#fafafa" }}>
                   <td style={{ padding: "0.75rem 1rem" }}>
