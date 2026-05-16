@@ -8,9 +8,48 @@ export const metadata: Metadata = {
   alternates: { canonical: "/" },
 };
 
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://majstorins.com/#website",
+      name: "MajstoriNS",
+      url: "https://majstorins.com",
+      description: "Pronađi proverenog majstora u Novom Sadu i okolini. Limari, stolari, vodoinstalateri, električari i još 15 zanata.",
+      potentialAction: {
+        "@type": "SearchAction",
+        target: {
+          "@type": "EntryPoint",
+          urlTemplate: "https://majstorins.com/pretraga?q={search_term_string}",
+        },
+        "query-input": "required name=search_term_string",
+      },
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://majstorins.com/#organization",
+      name: "MajstoriNS",
+      url: "https://majstorins.com",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://majstorins.com/og-image.png",
+        width: 1200,
+        height: 630,
+      },
+      description: "Najveća baza majstora i zanata za Novi Sad i okolinu.",
+      areaServed: { "@type": "City", name: "Novi Sad" },
+    },
+  ],
+};
+
 export default function Home() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* Hero */}
       <section style={{ background: "#0f0f0f", minHeight: "88vh", display: "flex", alignItems: "center", position: "relative", zIndex: 1 }}>
         <div style={{ maxWidth: "72rem", margin: "0 auto", padding: "6rem 1.5rem", width: "100%" }}>
