@@ -4,6 +4,7 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "Kontakt",
   description: "Kontaktiraj MajstorNS tim — za grešku u podacima, pitanje ili saradnju.",
+  alternates: { canonical: "/kontakt" },
 };
 
 export default function KontaktPage() {

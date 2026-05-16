@@ -1,8 +1,13 @@
+import type { Metadata } from "next";
 import { CATEGORIES } from "@/lib/categories";
 import { CategoryCard } from "@/components/CategoryCard";
 import { HeroIllustration } from "@/components/HeroIllustration";
 import { SearchBox } from "@/components/SearchBox";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
 export default function Home() {
   return (

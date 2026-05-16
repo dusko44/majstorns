@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Uslovi korišćenja",
   description: "Uslovi korišćenja sajta MajstorNS — direktorijuma zanatlija u Novom Sadu.",
+  alternates: { canonical: "/uslovi" },
 };
 
 export default function UsloviPage() {

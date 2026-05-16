@@ -13,9 +13,13 @@ export async function generateMetadata({
   const { slug } = await params;
   const category = getCategoryBySlug(slug);
   if (!category) return {};
+  const title = category.plural;
+  const description = category.metaDescription;
   return {
-    title: category.plural,
-    description: category.metaDescription,
+    title,
+    description,
+    alternates: { canonical: `/${slug}` },
+    openGraph: { title, description },
   };
 }
 

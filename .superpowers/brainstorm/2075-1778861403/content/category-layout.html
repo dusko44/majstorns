@@ -1,0 +1,98 @@
+<h2>Kako treba da izgleda stranica kategorije?</h2>
+<p class="subtitle">Npr. /vodoinstalater — mapa + lista majstora</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#f8f8f8;padding:1rem;font-family:sans-serif;">
+      <div style="display:flex;height:220px;border-radius:8px;overflow:hidden;border:1px solid #e5e7eb;">
+        <div style="width:58%;background:#dde8d4;display:flex;align-items:center;justify-content:center;color:#6b7280;font-size:0.75rem;border-right:1px solid #e5e7eb;">
+          🗺 Mapa
+        </div>
+        <div style="width:42%;background:#fff;padding:0.75rem;display:flex;flex-direction:column;gap:0.5rem;overflow:hidden;">
+          <div style="font-size:0.65rem;color:#9ca3af;font-weight:600;">33 vodoinstalatera</div>
+          <div style="background:#f3f4f6;border-radius:6px;padding:0.5rem;font-size:0.7rem;">
+            <div style="font-weight:700;color:#111;">Saša</div>
+            <div style="color:#9ca3af;">Koste Racina 29</div>
+          </div>
+          <div style="background:#f3f4f6;border-radius:6px;padding:0.5rem;font-size:0.7rem;">
+            <div style="font-weight:700;color:#111;">Mirko</div>
+            <div style="color:#9ca3af;">Kraljevica Marka 60</div>
+          </div>
+          <div style="background:#f3f4f6;border-radius:6px;padding:0.5rem;font-size:0.7rem;">
+            <div style="font-weight:700;color:#111;">Zoki</div>
+            <div style="color:#9ca3af;">Bulevar oslobodjenja 4</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — Sadašnji layout (unaprijeđen)</h3>
+      <p>Mapa lijevo 60%, lista desno 40%. Ostaje isto, dobija novi dizajn.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#f8f8f8;padding:1rem;font-family:sans-serif;">
+      <div style="height:220px;border-radius:8px;overflow:hidden;border:1px solid #e5e7eb;position:relative;">
+        <div style="width:100%;height:100%;background:#dde8d4;display:flex;align-items:center;justify-content:center;color:#6b7280;font-size:0.75rem;">
+          🗺 Mapa — puna širina
+        </div>
+        <div style="position:absolute;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #e5e7eb;display:flex;gap:0.5rem;padding:0.5rem;overflow:hidden;">
+          <div style="min-width:120px;background:#f3f4f6;border-radius:6px;padding:0.4rem 0.6rem;font-size:0.65rem;flex-shrink:0;">
+            <div style="font-weight:700;color:#111;">Saša</div><div style="color:#9ca3af;">0.3 km</div>
+          </div>
+          <div style="min-width:120px;background:#f3f4f6;border-radius:6px;padding:0.4rem 0.6rem;font-size:0.65rem;flex-shrink:0;">
+            <div style="font-weight:700;color:#111;">Mirko</div><div style="color:#9ca3af;">0.8 km</div>
+          </div>
+          <div style="min-width:120px;background:#f3f4f6;border-radius:6px;padding:0.4rem 0.6rem;font-size:0.65rem;flex-shrink:0;">
+            <div style="font-weight:700;color:#111;">Zoki</div><div style="color:#9ca3af;">1.1 km</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Mapa full-screen, kartice ispod</h3>
+      <p>Mapa zauzima ceo ekran, horizontalni scroll kartica na dnu. Vizualno impresivno.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#f8f8f8;padding:1rem;font-family:sans-serif;">
+      <div style="height:220px;border-radius:8px;overflow:hidden;border:1px solid #e5e7eb;background:#fff;">
+        <div style="background:#0f0f0f;padding:0.6rem 1rem;display:flex;justify-content:space-between;align-items:center;">
+          <span style="font-weight:700;color:#fff;font-size:0.8rem;">Vodoinstalateri u NS</span>
+          <span style="font-size:0.65rem;color:#f97316;border:1px solid #f97316;border-radius:999px;padding:0.2rem 0.5rem;">Prikaži mapu</span>
+        </div>
+        <div style="padding:0.5rem;display:flex;flex-direction:column;gap:0.4rem;">
+          <div style="display:flex;justify-content:space-between;align-items:center;background:#f9f9f7;border-radius:8px;padding:0.5rem 0.75rem;">
+            <div>
+              <div style="font-weight:700;font-size:0.75rem;color:#111;">Saša</div>
+              <div style="font-size:0.65rem;color:#9ca3af;">Koste Racina 29 · 0.3 km</div>
+            </div>
+            <span style="font-size:0.65rem;background:#111;color:#fff;border-radius:6px;padding:0.25rem 0.5rem;">Profil →</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;background:#f9f9f7;border-radius:8px;padding:0.5rem 0.75rem;">
+            <div>
+              <div style="font-weight:700;font-size:0.75rem;color:#111;">Mirko</div>
+              <div style="font-size:0.65rem;color:#9ca3af;">Kraljevica Marka 60 · 0.8 km</div>
+            </div>
+            <span style="font-size:0.65rem;background:#111;color:#fff;border-radius:6px;padding:0.25rem 0.5rem;">Profil →</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;background:#f9f9f7;border-radius:8px;padding:0.5rem 0.75rem;">
+            <div>
+              <div style="font-weight:700;font-size:0.75rem;color:#111;">Zoki</div>
+              <div style="font-size:0.65rem;color:#9ca3af;">Bulevar oslobodjenja · 1.1 km</div>
+            </div>
+            <span style="font-size:0.65rem;background:#111;color:#fff;border-radius:6px;padding:0.25rem 0.5rem;">Profil →</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — Lista primarno, mapa na zahtjev</h3>
+      <p>Lista majstora je glavna. Mapa se otvara dugmetom. Lakše za mobilne.</p>
+    </div>
+  </div>
+
+</div>

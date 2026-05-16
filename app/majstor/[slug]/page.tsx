@@ -49,9 +49,13 @@ export async function generateMetadata({
     .eq("slug", slug)
     .single();
   if (!data) return {};
+  const title = `${data.business_name} — ${data.category_name} Novi Sad`;
+  const description = `${data.business_name}, ${data.category_name.toLowerCase()} u Novom Sadu. Adresa: ${data.address}`;
   return {
-    title: `${data.business_name} — ${data.category_name} Novi Sad`,
-    description: `${data.business_name}, ${data.category_name.toLowerCase()} u Novom Sadu. Adresa: ${data.address}`,
+    title,
+    description,
+    alternates: { canonical: `/majstor/${slug}` },
+    openGraph: { title, description },
   };
 }
 

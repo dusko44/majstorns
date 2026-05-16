@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Politika privatnosti",
   description: "Politika privatnosti sajta MajstorNS — kako prikupljamo, čuvamo i koristimo podatke.",
+  alternates: { canonical: "/privatnost" },
 };
 
 export default function PrivatnostPage() {

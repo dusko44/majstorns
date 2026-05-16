@@ -4,6 +4,7 @@ import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 export const metadata: Metadata = {
   title: "Ukloni me iz direktorijuma",
+  alternates: { canonical: "/opt-out" },
 };
 
 async function submitOptOut(formData: FormData) {

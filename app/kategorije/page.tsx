@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   title: "Sve kategorije",
   description:
     "Pregled svih kategorija majstora u Novom Sadu — limari, stolari, vodoinstalateri, električari i još 15 zanata.",
+  alternates: { canonical: "/kategorije" },
 };
 
 export default function KategorijeePage() {

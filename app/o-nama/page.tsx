@@ -5,6 +5,7 @@ export const metadata: Metadata = {
   title: "O nama",
   description:
     "Saznaj više o MajstorNS projektu — zašto smo ga napravili i kako funkcioniše.",
+  alternates: { canonical: "/o-nama" },
 };
 
 export default function ONamaPage() {
