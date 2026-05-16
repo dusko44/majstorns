@@ -61,7 +61,7 @@ function buildOpeningHours(hours: Record<string, string>) {
   const specs = [];
   for (const [day, val] of Object.entries(hours)) {
     if (!SCHEMA_DAY[day] || !val) continue;
-    if (["Closed", "Zatvoreno", "Затворено"].includes(val)) continue;
+    if (["Closed", "Zatvoreno"].includes(val)) continue;
     if (/24\s*hour/i.test(val) || /24h/i.test(val)) {
       specs.push({ "@type": "OpeningHoursSpecification", dayOfWeek: `https://schema.org/${SCHEMA_DAY[day]}`, opens: "00:00", closes: "23:59" });
       continue;
@@ -249,7 +249,7 @@ export default async function CraftsmanPage({
                   const val = hours[day];
                   const isToday = day === todayKey;
                   const label = val
-                    ? val === "Closed" || val === "Zatvoreno" || val === "Затворено"
+                    ? val === "Closed" || val === "Zatvoreno"
                       ? "Zatvoreno"
                       : val
                     : "—";

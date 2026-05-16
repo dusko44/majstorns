@@ -31,7 +31,7 @@ export default function ONamaPage() {
 
         <p className="mt-4">
           Majstori su upisani na osnovu javno dostupnih informacija. Ako
-          primеtiš grešku u podacima ili želiš da ukloniš svoju radionicu,
+          primetiš grešku u podacima ili želiš da ukloniš svoju radionicu,
           javi nam se.
         </p>
       </div>
