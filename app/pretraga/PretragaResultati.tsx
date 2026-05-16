@@ -38,16 +38,13 @@ function Kartica({ r, userPos }: { r: Result; userPos: { lat: number; lng: numbe
       onClick={() => router.push(`/majstor/${r.slug}`)}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
+      className="search-card"
       style={{
         cursor: "pointer",
         background: "#ffffff",
         borderRadius: "1rem",
         border: "1px solid rgba(0,0,0,0.07)",
         padding: "1rem 1.25rem",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        gap: "1rem",
         boxShadow: hovered ? "0 4px 16px rgba(0,0,0,0.08)" : "none",
         transition: "box-shadow 0.2s",
       }}
@@ -72,7 +69,7 @@ function Kartica({ r, userPos }: { r: Result; userPos: { lat: number; lng: numbe
           </div>
         )}
       </div>
-      <div style={{ display: "flex", gap: "0.5rem", flexShrink: 0 }}>
+      <div className="search-card-actions" style={{ display: "flex", gap: "0.5rem", flexShrink: 0 }}>
         {r.phone && (
           <a
             href={`tel:${r.phone}`}
