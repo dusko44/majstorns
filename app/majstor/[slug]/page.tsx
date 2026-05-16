@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { CraftsmanMapWrapper } from "@/components/CraftsmanMapWrapper";
+import { getCategoryBySlug } from "@/lib/categories";
 
 const DAYS_SR: Record<string, string> = {
   monday: "Ponedeljak",
@@ -85,12 +86,18 @@ export async function generateMetadata({
   const supabase = await createSupabaseServerClient();
   const { data } = await supabase
     .from("craftsmen_map_view")
-    .select("business_name, category_name, address")
+    .select("business_name, category_name, category_slug, address")
     .eq("slug", slug)
     .single();
   if (!data) return {};
+  const category = getCategoryBySlug(data.category_slug);
+  const keywords = category?.metaDescription.split(" — ")[1]?.replace(/\.$/, "") ?? "";
   const title = `${data.business_name} — ${data.category_name} Novi Sad`;
-  const description = `${data.business_name}, ${data.category_name.toLowerCase()} u Novom Sadu. Adresa: ${data.address}`;
+  const description = [
+    `${data.business_name}, ${data.category_name.toLowerCase()} u Novom Sadu`,
+    keywords,
+    data.address,
+  ].filter(Boolean).join(". ") + ".";
   return {
     title,
     description,
