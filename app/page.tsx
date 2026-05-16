@@ -70,8 +70,32 @@ export default function Home() {
       <section style={{ background: "#faf9f7", padding: "6rem 1.5rem" }}>
         <div style={{ maxWidth: "72rem", margin: "0 auto" }}>
           <div style={{ marginBottom: "3rem" }}>
-            <p style={{ color: "#111827", fontSize: "1.25rem", fontWeight: 400, lineHeight: 1.5 }}>
-              Odaberi zanate i vidi najbliže majstore na mapi
+            <div
+              className="inline-flex items-center rounded-full"
+              style={{
+                background: "rgba(249,115,22,0.08)",
+                border: "1px solid rgba(249,115,22,0.15)",
+                padding: "0.3rem 0.875rem",
+                marginBottom: "1.25rem",
+              }}
+            >
+              <span style={{ color: "#f97316", fontSize: "0.6875rem", fontWeight: 600, letterSpacing: "0.15em", textTransform: "uppercase" }}>
+                Sve kategorije
+              </span>
+            </div>
+            <h2
+              style={{
+                fontSize: "clamp(2rem, 4vw, 3rem)",
+                fontWeight: 800,
+                color: "#111827",
+                letterSpacing: "-0.02em",
+                lineHeight: 1.1,
+              }}
+            >
+              Reši problem brzo
+            </h2>
+            <p style={{ color: "#111827", marginTop: "0.75rem", fontSize: "1.125rem" }}>
+              Pronađi najbliže majstore na mapi.
             </p>
           </div>
           <div className="category-grid">
