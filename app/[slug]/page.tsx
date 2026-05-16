@@ -57,6 +57,21 @@ export default async function CategoryPage({
     </div>
   );
 
+  const jsonLd = craftsmen && craftsmen.length > 0 ? {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: `${category.plural} u Novom Sadu`,
+    description: category.metaDescription,
+    url: `https://majstorins.com/${slug}`,
+    numberOfItems: craftsmen.length,
+    itemListElement: craftsmen.map((c, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      url: `https://majstorins.com/majstor/${c.slug}`,
+      name: c.business_name,
+    })),
+  } : null;
+
   if (!craftsmen || craftsmen.length === 0) {
     return (
       <div>
@@ -70,6 +85,12 @@ export default async function CategoryPage({
 
   return (
     <div>
+      {jsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      )}
       {header}
       <CategoryView craftsmen={craftsmen} />
     </div>
