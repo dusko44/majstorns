@@ -55,15 +55,15 @@ export function SearchBox() {
   }, []);
 
   return (
-    <div ref={containerRef} style={{ position: "relative" }}>
+    <div ref={containerRef} style={{ position: "relative", maxWidth: "22rem", width: "100%" }}>
       {/* Input — izgleda kao staro dugme */}
       <div
-        className="inline-flex items-center rounded-full"
+        className="flex items-center rounded-full"
         style={{
           background: "#f97316",
           padding: "0.875rem 0.875rem 0.875rem 1.75rem",
           gap: "0.75rem",
-          minWidth: "18rem",
+          width: "100%",
         }}
       >
         <input
