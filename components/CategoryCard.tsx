@@ -7,7 +7,6 @@ import { CategoryIcon } from "./CategoryIcon";
 
 export function CategoryCard({
   category,
-  index,
 }: {
   category: Category;
   index: number;
@@ -15,76 +14,56 @@ export function CategoryCard({
   const [hovered, setHovered] = useState(false);
 
   return (
-    <div
+    <Link
+      href={`/${category.slug}`}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
+        display: "flex",
+        alignItems: "center",
+        gap: "0.875rem",
+        background: "#fff",
+        borderRadius: "0.875rem",
+        padding: "0.875rem 1rem",
+        border: "1px solid rgba(0,0,0,0.06)",
+        boxShadow: hovered
+          ? "0 8px 28px rgba(0,0,0,0.1), 0 2px 8px rgba(0,0,0,0.06)"
+          : "0 1px 4px rgba(0,0,0,0.05)",
+        transform: hovered ? "translateY(-2px)" : "translateY(0)",
+        transition:
+          "box-shadow 0.3s cubic-bezier(0.16,1,0.3,1), transform 0.28s cubic-bezier(0.16,1,0.3,1)",
+        textDecoration: "none",
         cursor: "pointer",
       }}
     >
-      <Link
-        href={`/${category.slug}`}
+      <div
         style={{
+          width: "3rem",
+          height: "3rem",
+          borderRadius: "0.75rem",
+          flexShrink: 0,
+          background: hovered ? "#27272a" : "#18181b",
           display: "flex",
-          flexDirection: "column",
-          borderRadius: "1.25rem",
-          padding: "1.375rem",
-          minHeight: "8.5rem",
-          background: "linear-gradient(145deg, #ffffff 0%, #fdfcfb 100%)",
-          border: `1px solid ${hovered ? "rgba(249,115,22,0.18)" : "rgba(0,0,0,0.07)"}`,
-          boxShadow: hovered
-            ? "0 0 0 4px rgba(249,115,22,0.03), 0 20px 48px rgba(249,115,22,0.07), 0 4px 12px rgba(0,0,0,0.05)"
-            : "0 4px 20px rgba(0,0,0,0.05), 0 1px 3px rgba(0,0,0,0.04)",
-          transform: hovered ? "translateY(-3px)" : "translateY(0)",
+          alignItems: "center",
+          justifyContent: "center",
+          color: "#fed7aa",
+          transform: hovered ? "scale(1.08)" : "scale(1)",
           transition:
-            "border-color 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s cubic-bezier(0.16,1,0.3,1), transform 0.35s cubic-bezier(0.16,1,0.3,1)",
+            "background 0.3s ease, transform 0.35s cubic-bezier(0.16,1,0.3,1)",
         }}
       >
-        <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between" }}>
-          <div style={{ color: hovered ? "#f98a42" : "#065f46", transition: "color 0.3s cubic-bezier(0.16,1,0.3,1)" }}>
-            <CategoryIcon iconKey={category.iconKey} />
-          </div>
-          {/* desktop: broj; mobile: strelica */}
-          <span className="card-top-num" style={{ fontSize: "0.625rem", fontWeight: 500, color: "#d1d5db", fontVariantNumeric: "tabular-nums" }}>
-            {String(index + 1).padStart(2, "0")}
-          </span>
-          <span className="card-top-arrow" style={{ fontSize: "1rem", color: hovered ? "#f98a42" : "#065f46", transition: "color 0.3s cubic-bezier(0.16,1,0.3,1)" }}>→</span>
-        </div>
-        <div
-          style={{
-            marginTop: "auto",
-            paddingTop: "1.25rem",
-            display: "flex",
-            alignItems: "center",
-            gap: "0.1rem",
-            background: hovered ? "#f98a42" : "#4b5563",
-            borderRadius: "0.75rem",
-            padding: "0.2rem 0.2rem 0.2rem 0.625rem",
-            transition: "background 0.35s cubic-bezier(0.16,1,0.3,1)",
-          }}
-        >
-          <span className="category-pill-name" style={{ fontSize: "0.9375rem", fontWeight: 600, color: "#ffffff", lineHeight: 1.2 }}>
-            {category.name}
-          </span>
-          <span
-            className="card-pill-arrow"
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              width: "1.375rem",
-              height: "1.375rem",
-              borderRadius: "50%",
-              background: "rgba(255,255,255,0.18)",
-              color: "#ffffff",
-              fontSize: "0.875rem",
-              flexShrink: 0,
-            }}
-          >
-            →
-          </span>
-        </div>
-      </Link>
-    </div>
+        <CategoryIcon iconKey={category.iconKey} size={26} />
+      </div>
+      <span
+        style={{
+          fontSize: "0.9375rem",
+          fontWeight: 700,
+          color: "#18181b",
+          lineHeight: 1.2,
+        }}
+      >
+        {category.name}
+      </span>
+    </Link>
   );
 }
