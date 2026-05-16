@@ -36,6 +36,46 @@ function normalizeHours(raw: Record<string, unknown>): Record<string, string> {
   return result;
 }
 
+const SCHEMA_DAY: Record<string, string> = {
+  monday: "Monday", tuesday: "Tuesday", wednesday: "Wednesday",
+  thursday: "Thursday", friday: "Friday", saturday: "Saturday", sunday: "Sunday",
+};
+
+function to24h(s: string): string | null {
+  s = s.trim();
+  const ampm = s.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
+  if (ampm) {
+    let h = parseInt(ampm[1]);
+    const m = ampm[2];
+    if (ampm[3].toUpperCase() === "PM" && h !== 12) h += 12;
+    if (ampm[3].toUpperCase() === "AM" && h === 12) h = 0;
+    return `${String(h).padStart(2, "0")}:${m}`;
+  }
+  const h24 = s.match(/^(\d{1,2}):(\d{2})$/);
+  if (h24) return `${String(parseInt(h24[1])).padStart(2, "0")}:${h24[2]}`;
+  return null;
+}
+
+function buildOpeningHours(hours: Record<string, string>) {
+  const specs = [];
+  for (const [day, val] of Object.entries(hours)) {
+    if (!SCHEMA_DAY[day] || !val) continue;
+    if (["Closed", "Zatvoreno", "Затворено"].includes(val)) continue;
+    if (/24\s*hour/i.test(val) || /24h/i.test(val)) {
+      specs.push({ "@type": "OpeningHoursSpecification", dayOfWeek: `https://schema.org/${SCHEMA_DAY[day]}`, opens: "00:00", closes: "23:59" });
+      continue;
+    }
+    const parts = val.split(/[–—-]/);
+    if (parts.length !== 2) continue;
+    const opens = to24h(parts[0]);
+    const closes = to24h(parts[1]);
+    if (opens && closes) {
+      specs.push({ "@type": "OpeningHoursSpecification", dayOfWeek: `https://schema.org/${SCHEMA_DAY[day]}`, opens, closes });
+    }
+  }
+  return specs;
+}
+
 export async function generateMetadata({
   params,
 }: {
@@ -79,6 +119,8 @@ export default async function CraftsmanPage({
   const rawHours = c.working_hours as Record<string, unknown> | null;
   const hours = rawHours ? normalizeHours(rawHours) : null;
 
+  const openingHoursSpecs = hours ? buildOpeningHours(hours) : [];
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
@@ -97,6 +139,7 @@ export default async function CraftsmanPage({
       longitude: c.lng,
     },
     sameAs: `https://www.google.com/maps/search/?api=1&query=${c.lat},${c.lng}`,
+    ...(openingHoursSpecs.length > 0 && { openingHoursSpecification: openingHoursSpecs }),
   };
 
   return (
