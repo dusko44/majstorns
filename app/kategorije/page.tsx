@@ -3,9 +3,9 @@ import { CATEGORIES } from "@/lib/categories";
 import { CategoryCard } from "@/components/CategoryCard";
 
 export const metadata: Metadata = {
-  title: "Sve kategorije",
+  title: "Odaberi zanat",
   description:
-    "Pregled svih kategorija majstora u Novom Sadu — limari, stolari, vodoinstalateri, električari i još 15 zanata.",
+    "Odaberi zanat i pronađi najbliže majstore u Novom Sadu — limari, stolari, vodoinstalateri, električari i još 15 zanata.",
   alternates: { canonical: "/kategorije" },
 };
 
@@ -36,10 +36,10 @@ export default function KategorijeePage() {
             lineHeight: 1.1,
           }}
         >
-          18 zanata
+          Reši problem brzo
         </h1>
         <p style={{ color: "#111827", marginTop: "0.75rem", fontSize: "1.125rem" }}>
-          Odaberi zanat i pronađi najbliže majstore u Novom Sadu.
+          Pronađi najbliže majstore na mapi.
         </p>
       </div>
       <div className="category-grid">

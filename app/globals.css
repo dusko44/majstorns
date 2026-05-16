@@ -35,6 +35,9 @@ html, body {
   .category-grid {
     grid-template-columns: repeat(5, 1fr);
   }
+  .category-grid > *:nth-child(16) {
+    grid-column-start: 2;
+  }
 }
 
 .craftsman-map-section {
