@@ -95,7 +95,7 @@ export default function Home() {
             {[
               { n: "01", title: "Odaberi zanat", body: "Izaberi od 18 kategorija: limar, električar, vodoinstalater i ostali." },
               { n: "02", title: "Vidi ko je najbliži", body: "Mapa prikazuje sve majstore sortirane po udaljenosti od tebe." },
-              { n: "03", title: "Pozovi direktno", body: "Provjeri radno vreme i pozovi. Bez posrednika, bez registracije." },
+              { n: "03", title: "Pozovi direktno", body: "Proveri radno vreme i pozovi. Bez posrednika, bez registracije." },
             ].map(({ n, title, body }) => (
               <div key={n}>
                 <span style={{ fontSize: "4.5rem", fontWeight: 800, color: "#f3f4f6", lineHeight: 1, display: "block" }}>
