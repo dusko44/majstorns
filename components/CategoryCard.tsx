@@ -44,9 +44,11 @@ export function CategoryCard({
           <div style={{ color: hovered ? "#f98a42" : "#065f46", transition: "color 0.3s cubic-bezier(0.16,1,0.3,1)" }}>
             <CategoryIcon iconKey={category.iconKey} />
           </div>
-          <span style={{ fontSize: "0.625rem", fontWeight: 500, color: "#d1d5db", fontVariantNumeric: "tabular-nums" }}>
+          {/* desktop: broj; mobile: strelica */}
+          <span className="card-top-num" style={{ fontSize: "0.625rem", fontWeight: 500, color: "#d1d5db", fontVariantNumeric: "tabular-nums" }}>
             {String(index + 1).padStart(2, "0")}
           </span>
+          <span className="card-top-arrow" style={{ fontSize: "0.8125rem", color: "#d1d5db" }}>→</span>
         </div>
         <div
           style={{
@@ -65,6 +67,7 @@ export function CategoryCard({
             {category.name}
           </span>
           <span
+            className="card-pill-arrow"
             style={{
               display: "flex",
               alignItems: "center",

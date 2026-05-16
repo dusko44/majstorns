@@ -43,6 +43,16 @@ html, body {
   }
 }
 
+/* desktop: broj vidljiv, strelica-gore skrivena */
+.card-top-arrow { display: none; }
+
+/* mobile: strelica-gore vidljiva, broj i pill-strelica skriveni */
+@media (max-width: 639px) {
+  .card-top-num { display: none; }
+  .card-top-arrow { display: inline; }
+  .card-pill-arrow { display: none !important; }
+}
+
 .category-grid {
   display: grid;
   gap: 0.875rem;
