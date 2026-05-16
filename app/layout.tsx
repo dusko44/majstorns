@@ -19,7 +19,10 @@ export const metadata: Metadata = {
   description:
     "Pronađi proverenog majstora u Novom Sadu i okolini. Limari, stolari, vodoinstalateri, električari i još 15 zanata na jednom mestu — besplatno i bez logovanja.",
   verification: {
-    google: "gfKMbhUR6D6keKCPYDy6UQMPKiD88glmfTqdgnsh-iI",
+    google: [
+      "gfKMbhUR6D6keKCPYDy6UQMPKiD88glmfTqdgnsh-iI",
+      "s-aonmyOL-BFPyuBI008DejQSUTteNmV0feeMeYhPYE",
+    ],
   },
   openGraph: {
     type: "website",
