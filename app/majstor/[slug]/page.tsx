@@ -248,10 +248,11 @@ export default async function CraftsmanPage({
                 {DAY_ORDER.map((day) => {
                   const val = hours[day];
                   const isToday = day === todayKey;
+                  const is24h = val ? /24\s*sat|24\s*hour|otvoreno 24|open 24/i.test(val) : false;
                   const label = val
                     ? val === "Closed" || val === "Zatvoreno"
                       ? "Zatvoreno"
-                      : val
+                      : is24h ? "—" : val
                     : "—";
                   return (
                     <div
