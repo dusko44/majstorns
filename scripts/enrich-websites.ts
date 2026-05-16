@@ -7,7 +7,7 @@ config({ path: resolve(process.cwd(), ".env.local") });
 // ── Types ──────────────────────────────────────────────────────────────────
 
 interface SerpPlaceResponse {
-  place_results?: { website?: string };
+  place_results?: { website?: string; email?: string };
 }
 
 // ── Config ─────────────────────────────────────────────────────────────────
@@ -33,7 +33,7 @@ const LIMIT = limitIdx !== -1 && args[limitIdx + 1]
 
 // ── Helpers ────────────────────────────────────────────────────────────────
 
-async function fetchWebsite(dataId: string): Promise<string | null> {
+async function fetchPlaceData(dataId: string): Promise<{ website: string | null; email: string | null }> {
   const params = new URLSearchParams({
     engine: "google_maps",
     type: "place",
@@ -41,9 +41,12 @@ async function fetchWebsite(dataId: string): Promise<string | null> {
     api_key: SERPAPI_KEY!,
   });
   const res = await fetch(`https://serpapi.com/search?${params}`);
-  if (!res.ok) return null;
+  if (!res.ok) return { website: null, email: null };
   const data = (await res.json()) as SerpPlaceResponse;
-  return data.place_results?.website ?? null;
+  return {
+    website: data.place_results?.website ?? null,
+    email: data.place_results?.email ?? null,
+  };
 }
 
 // ── Main ───────────────────────────────────────────────────────────────────
@@ -78,23 +81,24 @@ async function main() {
     try {
       await new Promise((r) => setTimeout(r, 300));
 
-      const website = await fetchWebsite(craftsman.google_data_id!);
+      const { website, email } = await fetchPlaceData(craftsman.google_data_id!);
 
-      if (website) {
+      if (website || email) {
         const { error: updateErr } = await supabase
           .from("craftsmen")
-          .update({ website })
+          .update({ website, email })
           .eq("id", craftsman.id);
 
         if (updateErr) {
           console.error(`  ✗ ${craftsman.business_name}: ${updateErr.message}`);
           errors++;
         } else {
-          console.log(`  ✓ ${craftsman.business_name} → ${website}`);
+          const info = [website, email].filter(Boolean).join(", ");
+          console.log(`  ✓ ${craftsman.business_name} → ${info}`);
           updated++;
         }
       } else {
-        console.log(`  – ${craftsman.business_name}: bez sajta`);
+        console.log(`  – ${craftsman.business_name}: bez podataka`);
         noWebsite++;
       }
     } catch (err) {

@@ -71,14 +71,6 @@ export function CraftsmanCard({ craftsman }: { craftsman: CraftsmanRow }) {
             Sajt
           </a>
         )}
-        {craftsman.email && (
-          <a
-            href={`mailto:${craftsman.email}`}
-            className="rounded-lg border border-zinc-200 px-3 py-1.5 text-xs font-medium text-zinc-700 hover:border-zinc-300"
-          >
-            Email
-          </a>
-        )}
       </div>
     </div>
   );

@@ -17,7 +17,12 @@ interface SerpResult {
 }
 
 interface SerpPlaceResponse {
-  place_results?: { website?: string };
+  place_results?: { website?: string; email?: string };
+}
+
+interface PlaceData {
+  website: string | null;
+  email: string | null;
 }
 
 interface SerpResponse {
@@ -73,7 +78,7 @@ function makeUniqueSlug(base: string, usedSlugs: Set<string>): string {
   return unique;
 }
 
-async function fetchPlaceDetails(dataId: string): Promise<string | null> {
+async function fetchPlaceDetails(dataId: string): Promise<PlaceData> {
   const params = new URLSearchParams({
     engine: "google_maps",
     type: "place",
@@ -81,9 +86,12 @@ async function fetchPlaceDetails(dataId: string): Promise<string | null> {
     api_key: SERPAPI_KEY!,
   });
   const res = await fetch(`https://serpapi.com/search?${params}`);
-  if (!res.ok) return null;
+  if (!res.ok) return { website: null, email: null };
   const data = (await res.json()) as SerpPlaceResponse;
-  return data.place_results?.website ?? null;
+  return {
+    website: data.place_results?.website ?? null,
+    email: data.place_results?.email ?? null,
+  };
 }
 
 async function fetchSerp(query: string, pageToken?: string): Promise<SerpResponse> {
@@ -215,15 +223,16 @@ async function main() {
               if (r.data_id) {
                 try {
                   await new Promise((res) => setTimeout(res, 200));
-                  const website = await fetchPlaceDetails(r.data_id);
+                  const { website, email } = await fetchPlaceDetails(r.data_id);
                   totalPlaceDetailsCalls++;
-                  if (website) {
+                  if (website || email) {
                     await supabase
                       .from("craftsmen")
-                      .update({ website })
+                      .update({ website, email })
                       .eq("google_place_id", r.place_id!);
-                    totalWebsitesFound++;
-                    console.log(`  ✓ ${r.title} [${website}]`);
+                    if (website) totalWebsitesFound++;
+                    const info = [website, email].filter(Boolean).join(", ");
+                    console.log(`  ✓ ${r.title} [${info}]`);
                   } else {
                     console.log(`  ✓ ${r.title}`);
                   }
