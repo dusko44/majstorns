@@ -63,7 +63,7 @@ export function CategoryCard({
             transition: "background 0.35s cubic-bezier(0.16,1,0.3,1)",
           }}
         >
-          <span style={{ fontSize: "0.9375rem", fontWeight: 600, color: "#ffffff", lineHeight: 1.2, flex: 1, minWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+          <span className="category-pill-name" style={{ fontSize: "0.9375rem", fontWeight: 600, color: "#ffffff", lineHeight: 1.2 }}>
             {category.name}
           </span>
           <span

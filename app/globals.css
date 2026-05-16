@@ -46,6 +46,15 @@ html, body {
 /* desktop: broj vidljiv, strelica-gore skrivena */
 .card-top-arrow { display: none; }
 
+/* Naziv kategorije u pillu — ne prelamati */
+.category-pill-name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 /* mobile: strelica-gore vidljiva, broj i pill-strelica skriveni */
 @media (max-width: 639px) {
   .card-top-num { display: none; }
