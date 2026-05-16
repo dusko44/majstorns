@@ -118,6 +118,7 @@ export default async function CraftsmanPage({
     .from("craftsmen_map_view")
     .select("*")
     .eq("slug", slug)
+    .neq("status", "removed")
     .single();
 
   if (!c) notFound();
