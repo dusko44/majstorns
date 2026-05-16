@@ -74,12 +74,12 @@ export default async function Image({
           style={{
             display: "flex",
             alignItems: "center",
+            alignSelf: "flex-start",
             background: "rgba(249,115,22,0.12)",
             border: "1px solid rgba(249,115,22,0.25)",
             borderRadius: 999,
             padding: "6px 18px",
             marginBottom: 28,
-            width: "fit-content",
           }}
         >
           <span
