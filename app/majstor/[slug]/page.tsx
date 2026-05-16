@@ -187,7 +187,7 @@ export default async function CraftsmanPage({
           {c.business_name}
         </h1>
         {c.address && (
-          <p style={{ fontSize: "0.875rem", color: "rgba(255,255,255,0.7)", marginBottom: "1.25rem" }}>
+          <p style={{ fontSize: "0.875rem", color: "#ffffff", marginBottom: "1.25rem" }}>
             📍 {c.address}
           </p>
         )}
