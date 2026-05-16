@@ -9,10 +9,15 @@ config({ path: resolve(process.cwd(), ".env.local") });
 interface SerpResult {
   title: string;
   place_id?: string;
+  data_id?: string;
   address?: string;
   phone?: string;
   gps_coordinates?: { latitude: number; longitude: number };
   operating_hours?: Record<string, string[]>;
+}
+
+interface SerpPlaceResponse {
+  place_results?: { website?: string };
 }
 
 interface SerpResponse {
@@ -66,6 +71,19 @@ function makeUniqueSlug(base: string, usedSlugs: Set<string>): string {
   const unique = `${base}-${i}`;
   usedSlugs.add(unique);
   return unique;
+}
+
+async function fetchPlaceDetails(dataId: string): Promise<string | null> {
+  const params = new URLSearchParams({
+    engine: "google_maps",
+    type: "place",
+    data_id: dataId,
+    api_key: SERPAPI_KEY!,
+  });
+  const res = await fetch(`https://serpapi.com/search?${params}`);
+  if (!res.ok) return null;
+  const data = (await res.json()) as SerpPlaceResponse;
+  return data.place_results?.website ?? null;
 }
 
 async function fetchSerp(query: string, pageToken?: string): Promise<SerpResponse> {
@@ -136,6 +154,8 @@ async function main() {
   let totalSkipped = 0;
   let totalErrors = 0;
   let totalApiCalls = 0;
+  let totalPlaceDetailsCalls = 0;
+  let totalWebsitesFound = 0;
 
   for (const cat of categories) {
     console.log(`\n📂 ${cat.name_sr}`);
@@ -179,6 +199,7 @@ async function main() {
               location: `SRID=4326;POINT(${lng} ${lat})`,
               phone: r.phone ?? null,
               google_place_id: r.place_id,
+              google_data_id: r.data_id ?? null,
               working_hours: r.operating_hours ?? null,
               status: "pending",
               source: "scraped",
@@ -190,7 +211,28 @@ async function main() {
             } else {
               existingPlaceIds.add(r.place_id);
               totalInserted++;
-              console.log(`  ✓ ${r.title}`);
+
+              if (r.data_id) {
+                try {
+                  await new Promise((res) => setTimeout(res, 200));
+                  const website = await fetchPlaceDetails(r.data_id);
+                  totalPlaceDetailsCalls++;
+                  if (website) {
+                    await supabase
+                      .from("craftsmen")
+                      .update({ website })
+                      .eq("google_place_id", r.place_id!);
+                    totalWebsitesFound++;
+                    console.log(`  ✓ ${r.title} [${website}]`);
+                  } else {
+                    console.log(`  ✓ ${r.title}`);
+                  }
+                } catch {
+                  console.log(`  ✓ ${r.title} [place details nije uspeo]`);
+                }
+              } else {
+                console.log(`  ✓ ${r.title}`);
+              }
             }
           }
 
@@ -209,10 +251,13 @@ async function main() {
   }
 
   console.log("\n═══════════════════════════");
-  console.log(`API pozivi:  ${totalApiCalls}`);
-  console.log(`Upisano:     ${totalInserted}`);
-  console.log(`Preskočeno:  ${totalSkipped}`);
-  console.log(`Greške:      ${totalErrors}`);
+  console.log(`Search pozivi:         ${totalApiCalls}`);
+  console.log(`Place details pozivi:  ${totalPlaceDetailsCalls}`);
+  console.log(`Ukupno kredita (est.): ${totalApiCalls + totalPlaceDetailsCalls}`);
+  console.log(`Upisano:               ${totalInserted}`);
+  console.log(`  od toga sa sajtom:   ${totalWebsitesFound}`);
+  console.log(`Preskočeno:            ${totalSkipped}`);
+  console.log(`Greške:                ${totalErrors}`);
 }
 
 main().catch((err) => {
