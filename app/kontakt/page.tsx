@@ -30,7 +30,7 @@ export default function KontaktPage() {
             href="mailto:duskovujovic44@gmail.com?subject=Upis u direktorijum"
             className="mt-4 inline-block rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800"
           >
-            Pošalji zahtev
+            Pošalji zahtev →
           </a>
         </div>
 
@@ -44,9 +44,9 @@ export default function KontaktPage() {
           </p>
           <a
             href="mailto:duskovujovic44@gmail.com?subject=Greška u podacima"
-            className="mt-4 inline-block rounded-lg border border-zinc-300 px-4 py-2 text-sm font-medium text-zinc-700 hover:border-zinc-400"
+            className="mt-4 inline-block rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800"
           >
-            Prijavi grešku
+            Prijavi grešku →
           </a>
         </div>
 
@@ -60,9 +60,9 @@ export default function KontaktPage() {
           </p>
           <Link
             href="/opt-out"
-            className="mt-4 inline-block rounded-lg border border-zinc-300 px-4 py-2 text-sm font-medium text-zinc-700 hover:border-zinc-400"
+            className="mt-4 inline-block rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800"
           >
-            Zahtev za uklanjanje
+            Zahtev za uklanjanje →
           </Link>
         </div>
       </div>
