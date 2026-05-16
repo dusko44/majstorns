@@ -28,6 +28,11 @@ export const metadata: Metadata = {
     title: "MajstoriNS — Direktorijum majstora u Novom Sadu",
     description:
       "Pronađi proverenog majstora u Novom Sadu i okolini, brzo i besplatno.",
+    images: [{ url: "/og-image.png", width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    images: ["/og-image.png"],
   },
 };
 
