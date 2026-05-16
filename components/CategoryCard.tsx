@@ -46,7 +46,7 @@ export function CategoryCard({
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          color: "#fed7aa",
+          color: "#fb923c",
           transform: hovered ? "scale(1.08)" : "scale(1)",
           transition:
             "background 0.3s ease, transform 0.35s cubic-bezier(0.16,1,0.3,1)",
