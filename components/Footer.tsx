@@ -33,7 +33,7 @@ export function Footer() {
           </div>
         </div>
         <div className="mt-10 border-t border-zinc-200 pt-6 text-xs text-zinc-500">
-          © {new Date().getFullYear()} MajstorINS. Sva prava zadržana.
+          © {new Date().getFullYear()} MajstoriNS. Sva prava zadržana.
         </div>
       </div>
     </footer>

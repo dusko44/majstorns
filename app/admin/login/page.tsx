@@ -3,10 +3,14 @@ import { redirect } from "next/navigation";
 
 async function login(formData: FormData) {
   "use server";
+  const { ADMIN_PASSWORD, ADMIN_SECRET } = process.env;
+  if (!ADMIN_PASSWORD || !ADMIN_SECRET) {
+    throw new Error("ADMIN_PASSWORD and ADMIN_SECRET env vars must be set");
+  }
   const password = formData.get("password") as string;
-  if (password === process.env.ADMIN_PASSWORD) {
+  if (password === ADMIN_PASSWORD) {
     const cookieStore = await cookies();
-    cookieStore.set("admin_session", process.env.ADMIN_SECRET!, {
+    cookieStore.set("admin_session", ADMIN_SECRET, {
       httpOnly: true,
       sameSite: "lax",
       path: "/",

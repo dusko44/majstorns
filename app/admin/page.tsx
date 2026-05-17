@@ -53,28 +53,35 @@ const FILTER_LABEL: Record<string, string> = {
   removed: "Uklonjeni",
 };
 
+const PAGE_SIZE = 100;
+
 export default async function AdminPage({
   searchParams,
 }: {
-  searchParams: Promise<{ status?: string }>;
+  searchParams: Promise<{ status?: string; page?: string }>;
 }) {
-  const { status } = await searchParams;
+  const { status, page: pageParam } = await searchParams;
   const filter = FILTERS.includes(status as typeof FILTERS[number]) ? status! : "all";
+  const page = Math.max(1, parseInt(pageParam ?? "1", 10) || 1);
+  const from = (page - 1) * PAGE_SIZE;
+  const to = from + PAGE_SIZE - 1;
 
   const supabase = createAdminClient();
   let query = supabase
     .from("craftsmen")
-    .select("id, slug, business_name, phone, email, status, paid_until, categories(name_sr)")
-    .order("business_name");
+    .select("id, slug, business_name, phone, email, status, paid_until, categories(name_sr)", { count: "exact" })
+    .order("business_name")
+    .range(from, to);
 
   if (filter !== "all") {
     query = query.eq("status", filter);
   }
 
-  const { data: craftsmen } = await query;
+  const { data: craftsmen, count: totalCount } = await query;
+  const totalPages = Math.ceil((totalCount ?? 0) / PAGE_SIZE);
 
-  const counts: Record<string, number> = { all: 0, pending: 0, contacted: 0, paid: 0, removed: 0 };
   const { data: allStatuses } = await supabase.from("craftsmen").select("status");
+  const counts: Record<string, number> = { all: 0, pending: 0, contacted: 0, paid: 0, removed: 0 };
   allStatuses?.forEach((c) => {
     counts.all++;
     counts[c.status] = (counts[c.status] ?? 0) + 1;
@@ -182,6 +189,18 @@ export default async function AdminPage({
           </div>
         )}
       </div>
+
+      {totalPages > 1 && (
+        <div style={{ display: "flex", gap: "0.5rem", marginTop: "1rem", alignItems: "center" }}>
+          {page > 1 && (
+            <Link href={`/admin?status=${filter === "all" ? "" : filter}&page=${page - 1}`} style={btnStyle("#374151")}>← Prethodna</Link>
+          )}
+          <span style={{ fontSize: "0.875rem", color: "#6b7280" }}>Strana {page} / {totalPages}</span>
+          {page < totalPages && (
+            <Link href={`/admin?status=${filter === "all" ? "" : filter}&page=${page + 1}`} style={btnStyle("#374151")}>Sledeća →</Link>
+          )}
+        </div>
+      )}
     </div>
   );
 }

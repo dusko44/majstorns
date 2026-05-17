@@ -14,7 +14,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const { data: craftsmen } = await supabase
     .from("craftsmen")
     .select("slug, updated_at")
-    .in("status", ["pending", "paid"])
+    .in("status", ["pending", "contacted", "paid"])
     .limit(100000);
 
   const now = new Date();
@@ -24,6 +24,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE_URL}/kategorije`, changeFrequency: "weekly", priority: 0.9, lastModified: now },
     { url: `${BASE_URL}/kontakt`, changeFrequency: "monthly", priority: 0.4, lastModified: now },
     { url: `${BASE_URL}/o-nama`, changeFrequency: "monthly", priority: 0.3, lastModified: now },
+    { url: `${BASE_URL}/uslovi`, changeFrequency: "yearly", priority: 0.2, lastModified: now },
+    { url: `${BASE_URL}/privatnost`, changeFrequency: "yearly", priority: 0.2, lastModified: now },
   ];
 
   const categoryPages: MetadataRoute.Sitemap = CATEGORIES.map((cat) => ({

@@ -38,7 +38,7 @@ export default async function CategoryPage({
     .from("craftsmen_map_view")
     .select("id, slug, business_name, address, phone, lat, lng, category_name, rating, review_count")
     .eq("category_slug", slug)
-    .in("status", ["pending", "paid"]);
+    .in("status", ["pending", "contacted", "paid"]);
 
   const header = (
     <div style={{ background: "#0f0f0f", padding: "0.75rem 1.5rem 1rem" }}>
@@ -84,15 +84,17 @@ export default async function CategoryPage({
   }
 
   return (
-    <div>
+    <>
       {jsonLd && (
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       )}
-      {header}
-      <CategoryView craftsmen={craftsmen} />
-    </div>
+      <div>
+        {header}
+        <CategoryView craftsmen={craftsmen} />
+      </div>
+    </>
   );
 }

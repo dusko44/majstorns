@@ -236,7 +236,7 @@ export default async function CraftsmanPage({
               WhatsApp
             </a>
           )}
-          {c.website && (
+          {c.website && c.website.startsWith("http") && (
             <a href={c.website} target="_blank" rel="noopener noreferrer" style={{ display: "inline-flex", alignItems: "center", borderRadius: "999px", border: "1px solid rgba(255,255,255,0.15)", padding: "0.625rem 1rem", fontSize: "0.8125rem", fontWeight: 500, color: "rgba(255,255,255,0.75)", textDecoration: "none" }}>
               Sajt
             </a>

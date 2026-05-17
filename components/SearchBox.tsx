@@ -79,6 +79,7 @@ export function SearchBox() {
             }
           }}
           placeholder="Traži majstora…"
+          className="search-input"
           style={{
             border: "none",
             background: "transparent",
@@ -149,10 +150,6 @@ export function SearchBox() {
         </div>
       )}
 
-      <style>{`
-        ::placeholder { color: rgba(255,255,255,0.7); }
-        @keyframes spin { to { transform: rotate(360deg); } }
-      `}</style>
     </div>
   );
 }

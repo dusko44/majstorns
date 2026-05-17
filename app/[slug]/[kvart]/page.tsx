@@ -5,19 +5,9 @@ import { getCategoryBySlug, CATEGORIES } from "@/lib/categories";
 import { getNeighborhoodBySlug, NEIGHBORHOODS } from "@/lib/neighborhoods";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { CategoryView } from "@/components/CategoryView";
+import type { CategoryCraftsman } from "@/components/CategoryMapView";
 
 const RADIUS_KM = 3;
-
-function haversineKm(lat1: number, lng1: number, lat2: number, lng2: number): number {
-  const R = 6371;
-  const toRad = (d: number) => (d * Math.PI) / 180;
-  const dLat = toRad(lat2 - lat1);
-  const dLng = toRad(lng2 - lng1);
-  const a =
-    Math.sin(dLat / 2) ** 2 +
-    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLng / 2) ** 2;
-  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-}
 
 export async function generateStaticParams() {
   return CATEGORIES.flatMap((cat) =>
@@ -59,18 +49,13 @@ export default async function NeighborhoodPage({
 
   const supabase = await createSupabaseServerClient();
 
-  const { data: allCraftsmen } = await supabase
-    .from("craftsmen_map_view")
-    .select("id, slug, business_name, address, phone, lat, lng, category_name, rating, review_count")
-    .eq("category_slug", slug)
-    .in("status", ["pending", "paid"]);
-
-  const craftsmen = (allCraftsmen ?? []).filter(
-    (c) =>
-      c.lat != null &&
-      c.lng != null &&
-      haversineKm(neighborhood.centerLat, neighborhood.centerLng, c.lat, c.lng) <= RADIUS_KM
-  );
+  const { data: craftsmenRaw } = await supabase.rpc("craftsmen_by_neighborhood", {
+    p_category_slug: slug,
+    p_center_lat: neighborhood.centerLat,
+    p_center_lng: neighborhood.centerLng,
+    p_radius_km: RADIUS_KM,
+  });
+  const craftsmen = (craftsmenRaw ?? []) as CategoryCraftsman[];
 
   const header = (
     <div style={{ background: "#0f0f0f", padding: "0.75rem 1.5rem 1rem" }}>
@@ -130,15 +115,17 @@ export default async function NeighborhoodPage({
   }
 
   return (
-    <div>
+    <>
       {jsonLd && (
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       )}
-      {header}
-      <CategoryView craftsmen={craftsmen} />
-    </div>
+      <div>
+        {header}
+        <CategoryView craftsmen={craftsmen} />
+      </div>
+    </>
   );
 }
