@@ -22,7 +22,7 @@ export function CategoryCard({
         display: "flex",
         alignItems: "center",
         gap: "0.875rem",
-        background: "rgba(249,115,22,0.05)",
+        background: "rgba(249,115,22,0.03)",
         borderRadius: "1.125rem",
         padding: "1rem 1.125rem",
         border: "1px solid rgba(249,115,22,0.12)",
