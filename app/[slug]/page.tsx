@@ -42,7 +42,7 @@ export default async function CategoryPage({
 
   const header = (
     <div style={{ background: "#0f0f0f", padding: "0.75rem 1.5rem 1rem" }}>
-      <Link href="/kategorije" style={{ fontSize: "0.8125rem", fontWeight: 600, color: "#ffffff", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "0.375rem", marginBottom: "0.75rem", background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.15)", borderRadius: "999px", padding: "0.3rem 0.75rem 0.3rem 0.5rem" }}>
+      <Link href="/kategorije" style={{ fontSize: "0.8125rem", fontWeight: 600, color: "#d1d5db", textDecoration: "none", display: "inline-block", marginBottom: "0.5rem" }}>
         ← Kategorije
       </Link>
       <h1 style={{ fontSize: "1.125rem", fontWeight: 800, color: "#ffffff", letterSpacing: "-0.02em", lineHeight: 1.2 }}>
@@ -50,7 +50,7 @@ export default async function CategoryPage({
         <span style={{ color: "#f97316" }}> u Novom Sadu</span>
       </h1>
       {craftsmen && craftsmen.length > 0 && (
-        <p style={{ fontSize: "0.75rem", color: "rgba(255,255,255,0.65)", marginTop: "0.2rem" }}>
+        <p style={{ fontSize: "0.75rem", color: "#9ca3af", marginTop: "0.2rem" }}>
           {craftsmen.length} majstora pronađeno
         </p>
       )}

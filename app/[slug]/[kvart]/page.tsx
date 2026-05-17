@@ -74,38 +74,15 @@ export default async function NeighborhoodPage({
 
   const header = (
     <div style={{ background: "#0f0f0f", padding: "0.75rem 1.5rem 1rem" }}>
-      <Link
-        href={`/${slug}`}
-        style={{
-          fontSize: "0.75rem",
-          color: "rgba(255,255,255,0.35)",
-          textDecoration: "none",
-          display: "inline-block",
-          marginBottom: "0.5rem",
-        }}
-      >
+      <Link href={`/${slug}`} style={{ fontSize: "0.8125rem", fontWeight: 600, color: "#d1d5db", textDecoration: "none", display: "inline-block", marginBottom: "0.5rem" }}>
         ← {category.plural} u Novom Sadu
       </Link>
-      <h1
-        style={{
-          fontSize: "1.125rem",
-          fontWeight: 800,
-          color: "#ffffff",
-          letterSpacing: "-0.02em",
-          lineHeight: 1.2,
-        }}
-      >
+      <h1 style={{ fontSize: "1.125rem", fontWeight: 800, color: "#ffffff", letterSpacing: "-0.02em", lineHeight: 1.2 }}>
         {category.plural}
         <span style={{ color: "#f97316" }}> — {neighborhood.name}</span>
       </h1>
       {craftsmen.length > 0 && (
-        <p
-          style={{
-            fontSize: "0.75rem",
-            color: "rgba(255,255,255,0.35)",
-            marginTop: "0.2rem",
-          }}
-        >
+        <p style={{ fontSize: "0.75rem", color: "#9ca3af", marginTop: "0.2rem" }}>
           {craftsmen.length} majstora u radijusu {RADIUS_KM} km
         </p>
       )}
