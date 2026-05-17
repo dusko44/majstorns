@@ -22,14 +22,16 @@ export function CategoryCard({
         display: "flex",
         alignItems: "center",
         gap: "0.875rem",
-        background: "#f4f4f5",
-        borderRadius: "0.875rem",
-        padding: "0.875rem 1rem",
-        border: "1px solid rgba(0,0,0,0.18)",
-        boxShadow: "none",
-        transform: hovered ? "translateY(-2px)" : "translateY(0)",
+        background: "rgba(249,115,22,0.05)",
+        borderRadius: "1.125rem",
+        padding: "1rem 1.125rem",
+        border: "1px solid rgba(249,115,22,0.12)",
+        boxShadow: hovered
+          ? "inset 0 1px 0 rgba(255,255,255,0.9), 0 16px 40px rgba(249,115,22,0.18), 0 4px 12px rgba(0,0,0,0.07)"
+          : "inset 0 1px 0 rgba(255,255,255,0.7), 0 4px 20px rgba(249,115,22,0.1), 0 1px 4px rgba(0,0,0,0.04)",
+        transform: hovered ? "translateY(-3px)" : "translateY(0)",
         transition:
-          "box-shadow 0.3s cubic-bezier(0.16,1,0.3,1), transform 0.28s cubic-bezier(0.16,1,0.3,1)",
+          "box-shadow 0.35s cubic-bezier(0.16,1,0.3,1), transform 0.3s cubic-bezier(0.16,1,0.3,1)",
         textDecoration: "none",
         cursor: "pointer",
       }}
@@ -38,7 +40,7 @@ export function CategoryCard({
         style={{
           width: "3rem",
           height: "3rem",
-          borderRadius: "0.75rem",
+          borderRadius: "50%",
           flexShrink: 0,
           background: hovered ? "#27272a" : "#18181b",
           display: "flex",

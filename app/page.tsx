@@ -169,7 +169,7 @@ export default function Home() {
               { n: "03", title: "Pozovi direktno", body: "Proveri radno vreme i pozovi. Bez posrednika, bez registracije." },
             ].map(({ n, title, body }) => (
               <div key={n}>
-                <span style={{ fontSize: "4.5rem", fontWeight: 800, color: "#f97316", lineHeight: 1, display: "block" }}>
+                <span style={{ fontSize: "4.5rem", fontWeight: 800, color: "rgba(249,115,22,0.35)", lineHeight: 1, display: "block" }}>
                   {n}
                 </span>
                 <h3 style={{ fontSize: "1rem", fontWeight: 600, color: "#111827", marginTop: "1rem" }}>{title}</h3>
