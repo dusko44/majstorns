@@ -186,6 +186,17 @@ export default async function CraftsmanPage({
         <h1 style={{ fontSize: "clamp(1.5rem, 4vw, 2.5rem)", fontWeight: 800, color: "#ffffff", letterSpacing: "-0.025em", lineHeight: 1.1, marginBottom: "0.375rem" }}>
           {c.business_name}
         </h1>
+        {c.rating && (
+          <div style={{ display: "flex", alignItems: "center", gap: "0.375rem", marginBottom: "0.5rem" }}>
+            <span style={{ color: "#f97316", fontSize: "0.9375rem", letterSpacing: "-0.02em" }}>
+              {"★".repeat(Math.round(c.rating))}{"☆".repeat(5 - Math.round(c.rating))}
+            </span>
+            <span style={{ color: "#ffffff", fontWeight: 700, fontSize: "0.875rem" }}>{Number(c.rating).toFixed(1)}</span>
+            {c.review_count && (
+              <span style={{ color: "rgba(255,255,255,0.4)", fontSize: "0.8125rem" }}>({c.review_count} ocena)</span>
+            )}
+          </div>
+        )}
         {c.address && (
           <p style={{ fontSize: "0.875rem", color: "#ffffff", marginBottom: "1.25rem" }}>
             📍 {c.address}

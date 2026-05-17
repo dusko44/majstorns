@@ -12,6 +12,8 @@ interface SerpResult {
   data_id?: string;
   address?: string;
   phone?: string;
+  rating?: number;
+  reviews?: number;
   gps_coordinates?: { latitude: number; longitude: number };
   operating_hours?: Record<string, string[]>;
 }
@@ -228,6 +230,8 @@ async function main() {
               address: cyrillicToLatin(r.address ?? "Novi Sad"),
               location: `SRID=4326;POINT(${lng} ${lat})`,
               phone: r.phone ?? null,
+              rating: r.rating ?? null,
+              review_count: r.reviews ?? null,
               google_place_id: r.place_id,
               google_data_id: r.data_id ?? null,
               working_hours: r.operating_hours ?? null,
