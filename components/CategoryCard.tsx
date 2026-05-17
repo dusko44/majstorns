@@ -22,13 +22,13 @@ export function CategoryCard({
         display: "flex",
         alignItems: "center",
         gap: "0.875rem",
-        background: "rgba(249,115,22,0.03)",
+        background: "rgba(249,115,22,0.06)",
         borderRadius: "1.125rem",
         padding: "1rem 1.125rem",
         border: "1px solid rgba(249,115,22,0.12)",
         boxShadow: hovered
-          ? "inset 0 1px 0 rgba(255,255,255,0.9), 0 16px 40px rgba(249,115,22,0.18), 0 4px 12px rgba(0,0,0,0.07)"
-          : "inset 0 1px 0 rgba(255,255,255,0.7), 0 4px 20px rgba(249,115,22,0.1), 0 1px 4px rgba(0,0,0,0.04)",
+          ? "inset 0 1px 0 rgba(255,255,255,0.9), 0 6px 16px rgba(100,90,80,0.12), 0 2px 4px rgba(0,0,0,0.06)"
+          : "inset 0 1px 0 rgba(255,255,255,0.7), 0 2px 6px rgba(100,90,80,0.09), 0 1px 2px rgba(0,0,0,0.04)",
         transform: hovered ? "translateY(-3px)" : "translateY(0)",
         transition:
           "box-shadow 0.35s cubic-bezier(0.16,1,0.3,1), transform 0.3s cubic-bezier(0.16,1,0.3,1)",

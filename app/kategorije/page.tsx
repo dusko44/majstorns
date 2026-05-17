@@ -19,11 +19,11 @@ export default function KategorijeePage() {
           style={{
             background: "#ffffff",
             border: "1px solid rgba(0,0,0,0.18)",
-            padding: "0.3rem 0.875rem",
+            padding: "0.45rem 1.1rem",
             marginBottom: "1.25rem",
           }}
         >
-          <span style={{ color: "#111827", fontSize: "0.6875rem", fontWeight: 600, letterSpacing: "0.15em", textTransform: "uppercase" }}>
+          <span style={{ color: "#111827", fontSize: "0.75rem", fontWeight: 600, letterSpacing: "0.15em", textTransform: "uppercase" }}>
             Sve kategorije
           </span>
         </div>

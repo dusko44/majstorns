@@ -114,11 +114,11 @@ export default function Home() {
               style={{
                 background: "#ffffff",
                 border: "1px solid rgba(0,0,0,0.18)",
-                padding: "0.3rem 0.875rem",
+                padding: "0.45rem 1.1rem",
                 marginBottom: "1.25rem",
               }}
             >
-              <span style={{ color: "#111827", fontSize: "0.6875rem", fontWeight: 600, letterSpacing: "0.15em", textTransform: "uppercase" }}>
+              <span style={{ color: "#111827", fontSize: "0.75rem", fontWeight: 600, letterSpacing: "0.15em", textTransform: "uppercase" }}>
                 Sve kategorije
               </span>
             </div>
@@ -154,11 +154,11 @@ export default function Home() {
             style={{
               background: "#f4f4f5",
               border: "1px solid rgba(0,0,0,0.18)",
-              padding: "0.3rem 0.875rem",
+              padding: "0.45rem 1.1rem",
               marginBottom: "3.5rem",
             }}
           >
-            <span style={{ color: "#111827", fontSize: "0.6875rem", fontWeight: 600, letterSpacing: "0.15em", textTransform: "uppercase" }}>
+            <span style={{ color: "#111827", fontSize: "0.75rem", fontWeight: 600, letterSpacing: "0.15em", textTransform: "uppercase" }}>
               Kako funkcioniše
             </span>
           </div>
@@ -169,7 +169,7 @@ export default function Home() {
               { n: "03", title: "Pozovi direktno", body: "Proveri radno vreme i pozovi. Bez posrednika, bez registracije." },
             ].map(({ n, title, body }) => (
               <div key={n}>
-                <span style={{ fontSize: "4.5rem", fontWeight: 800, color: "rgba(249,115,22,0.35)", lineHeight: 1, display: "block" }}>
+                <span style={{ fontSize: "4.5rem", fontWeight: 800, color: "#f97316", lineHeight: 1, display: "block" }}>
                   {n}
                 </span>
                 <h3 style={{ fontSize: "1rem", fontWeight: 600, color: "#111827", marginTop: "1rem" }}>{title}</h3>
