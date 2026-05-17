@@ -8,66 +8,134 @@ config({ path: resolve(process.cwd(), ".env.local") });
 
 const DESKTOP = "C:/Users/klara/Desktop";
 const CSV_PATH = `${DESKTOP}/results.csv`;
-const QUERIES_PATH = `${DESKTOP}/queries.txt`;
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
 
-// Mapiranje Google Maps kategorija → naš slug (nije se koristio, ostaje za referencu)
+// Google Maps kategorije (ćirilica, lowercase) → naš slug
 const GM_TO_SLUG: Record<string, string> = {
+  // Elektricar
   "електричар": "elektricar",
-  "електро": "elektricar",
-  "вodoinstalater": "vodoinstalater",
+  "електричарска радња": "elektricar",
+  "електрична инсталација": "elektricar",
+  "електро сервис": "elektricar",
+  // Vodoinstalater
   "водоинсталатер": "vodoinstalater",
+  "водоинсталатерска радња": "vodoinstalater",
+  "инсталатер": "vodoinstalater",
+  "водовод": "vodoinstalater",
+  // Moler
   "молер": "moler",
-  "молер-фарбар": "moler",
+  "молерско-фарбарски радови": "moler",
+  "молерска радња": "moler",
+  "фарбар": "moler",
+  // Stolar
   "столар": "stolar",
-  "браварска": "bravar",
+  "столарска радња": "stolar",
+  "столарска производња": "stolar",
+  // Bravar
+  "бравар": "bravar",
+  "браварска радња": "bravar",
   "браварски": "bravar",
-  "брavar": "bravar",
-  "кераmičar": "keramicar",
+  // Keramicar
   "керамичар": "keramicar",
+  "керамичарска радња": "keramicar",
+  "поплочавање": "keramicar",
+  // Parketar
   "паркетар": "parketar",
-  "грађевинска": "gradjevinar",
+  "паркетарска радња": "parketar",
+  "постављање паркета": "parketar",
+  // Gradjevinar
+  "грађевинска компанија": "gradjevinar",
+  "грађевинска фирма": "gradjevinar",
   "грађевинар": "gradjevinar",
+  "грађевинска предузећа": "gradjevinar",
+  "грађевинска предузеће": "gradjevinar",
+  "извођач грађевинских радова": "gradjevinar",
+  "грађевинска радња": "gradjevinar",
+  // Krovopokrivac
   "кровопокривач": "krovopokrivac",
+  "кровопокривачка радња": "krovopokrivac",
+  "поправка крова": "krovopokrivac",
+  // Limar
+  "лимарска радња": "limar",
   "лимар": "limar",
-  "лимарска": "limar",
-  "servis klima": "klima-servis",
+  "лимарство": "limar",
+  // Klima-servis
+  "сервис клима-уређаја": "klima-servis",
+  "предузеће за клима-уређаје": "klima-servis",
   "климатизација": "klima-servis",
-  "servis bele tehnike": "servis-bele-tehnike",
+  "продавница клима-уређаја": "klima-servis",
+  "инсталација клима-уређаја": "klima-servis",
+  // Servis bele tehnike
+  "сервис беле технике": "servis-bele-tehnike",
+  "сервис кућних апарата": "servis-bele-tehnike",
+  "поправка апарата": "servis-bele-tehnike",
+  // Staklorezac
+  "стаклорезац": "staklorezac",
+  "стакларска радња": "staklorezac",
   "стакло": "staklorezac",
+  // Tapetar
   "тапетар": "tapetar",
+  "тапетарска радња": "tapetar",
+  // Roletar
   "ролетар": "roletar",
+  "ролетарска радња": "roletar",
+  "жалузине": "roletar",
+  // Vulkanizer
+  "вулканизерска радња": "vulkanizer",
+  "поправка и замена гума": "vulkanizer",
   "вулканизер": "vulkanizer",
+  "гуме": "vulkanizer",
+  // Automehanicar
+  "механичар": "automehanicar",
+  "ауто сервис": "automehanicar",
   "аутомеханичар": "automehanicar",
+  "аутосервис": "automehanicar",
+  "сервис аутомобила": "automehanicar",
+  "ауто-механичар": "automehanicar",
+  // Auto-elektricar
+  "аутоелектричарска радња": "auto-elektricar",
   "ауто-електричар": "auto-elektricar",
-  "ауto-elektricar": "auto-elektricar",
+  "аутоелектричар": "auto-elektricar",
+  // Dodatni servisi
+  "аутостаклар": "staklorezac",
+  "услуге сечења стакла": "staklorezac",
+  "брушење и полирање подова": "parketar",
+  "постављање подних облога": "parketar",
+  "извођач кровних радова": "krovopokrivac",
+  "изградња кућа": "gradjevinar",
+  "поправка и одржавање аутомобила": "automehanicar",
+  "услуге редовног сервиса аутомобила": "automehanicar",
+  "сервис малих кућних апарата": "servis-bele-tehnike",
+  "сервис машина за прање и сушење веша": "servis-bele-tehnike",
+  "корисничка подршка за кућне апарате": "servis-bele-tehnike",
+  "снабдевач деловима за кућне апарате": "servis-bele-tehnike",
+  "услуга електричних инсталација": "elektricar",
+  "услуге електронског инжењеринга": "elektricar",
+  "велепродавац електричних производа": "elektricar",
+  "услуга умножавања кључева": "bravar",
+  "израда металних производа": "bravar",
+  "компанија за металне конструкције": "bravar",
+  "извођач гипсаних радова": "moler",
+  "услуге скидања боја": "moler",
+  "услуга постављања прозора": "roletar",
+  "извођач унутрашњих радова": "gradjevinar",
+  "одржавање некретнина": "gradjevinar",
 };
 
-// Slug kategorije iz query input_id-a
-const INPUT_TO_SLUG: Record<string, string> = {
-  "elektricar": "elektricar",
-  "vodoinstalater": "vodoinstalater",
-  "moler": "moler",
-  "stolar": "stolar",
-  "bravar": "bravar",
-  "keramicar": "keramicar",
-  "parketar": "parketar",
-  "gradjevinar": "gradjevinar",
-  "krovopokrivac": "krovopokrivac",
-  "limar": "limar",
-  "klima": "klima-servis",
-  "servis bele tehnike": "servis-bele-tehnike",
-  "staklorezac": "staklorezac",
-  "tapetar": "tapetar",
-  "roletar": "roletar",
-  "vulkanizer": "vulkanizer",
-  "automehaničar": "automehanicar",
-  "auto elektricar": "auto-elektricar",
-};
+function categoryToSlug(category: string | undefined): string | null {
+  if (!category) return null;
+  const lower = category.toLowerCase().trim();
+  if (GM_TO_SLUG[lower]) return GM_TO_SLUG[lower];
+  // Parcijalno poklapanje — "Бравар за хитне интервенције" → "бравар"
+  for (const [key, slug] of Object.entries(GM_TO_SLUG)) {
+    if (lower.includes(key)) return slug;
+  }
+  return null;
+}
 
 // ── Transliteracija ────────────────────────────────────────────────────────
 
@@ -107,18 +175,6 @@ async function main() {
   const slugToId: Record<string, string> = {};
   for (const c of catsAll ?? []) slugToId[c.slug] = c.id;
 
-  // ── Parsing queries.txt ──────────────────────────────────────────────────
-  const queries = readFileSync(QUERIES_PATH, "utf-8")
-    .split("\n").map(l => l.trim()).filter(Boolean);
-
-  const querySlugList = queries.map(q => {
-    const lower = q.toLowerCase();
-    for (const [key, slug] of Object.entries(INPUT_TO_SLUG)) {
-      if (lower.startsWith(key)) return slug;
-    }
-    return null;
-  });
-
   // ── Učitaj CSV ───────────────────────────────────────────────────────────
   const raw = readFileSync(CSV_PATH, "utf-8");
   const records = parse(raw, {
@@ -135,18 +191,9 @@ async function main() {
   const existingPlaceIds = new Set((existing ?? []).map(e => e.google_place_id).filter(Boolean));
   const existingSlugs = new Set((existing ?? []).map(e => e.slug));
 
-  // ── input_id → kategorija ────────────────────────────────────────────────
-  const inputIdOrder: string[] = [];
-  const inputIdSet = new Set<string>();
-  for (const r of records) {
-    const id = r.input_id;
-    if (id && !inputIdSet.has(id)) { inputIdOrder.push(id); inputIdSet.add(id); }
-  }
-  const inputIdToSlug: Record<string, string | null> = {};
-  inputIdOrder.forEach((id, i) => { inputIdToSlug[id] = querySlugList[i] ?? null; });
-
   // ── Import ───────────────────────────────────────────────────────────────
   let inserted = 0, updated = 0, skipped = 0;
+  const unmappedCategories = new Set<string>();
 
   for (const r of records) {
     const lat = parseFloat(r.latitude);
@@ -154,8 +201,13 @@ async function main() {
     if (isNaN(lat) || isNaN(lng) || !inNS(lat, lng)) { skipped++; continue; }
 
     const placeId = r.place_id || null;
-    const categorySlug = inputIdToSlug[r.input_id] ?? null;
-    if (!categorySlug || !slugToId[categorySlug]) { skipped++; continue; }
+
+    const categorySlug = categoryToSlug(r.category);
+    if (!categorySlug || !slugToId[categorySlug]) {
+      if (r.category) unmappedCategories.add(r.category);
+      skipped++;
+      continue;
+    }
 
     const categoryId = slugToId[categorySlug];
     const businessName = r.title ? transliterate(r.title) : null;
@@ -212,6 +264,10 @@ async function main() {
   }
 
   console.log(`✓ Inserted: ${inserted}, Updated: ${updated}, Skipped: ${skipped}`);
+  if (unmappedCategories.size > 0) {
+    console.log(`\nNepoznate kategorije (${unmappedCategories.size}):`);
+    for (const cat of [...unmappedCategories].sort()) console.log(`  "${cat}"`);
+  }
 }
 
 main();
