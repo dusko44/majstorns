@@ -105,6 +105,11 @@ export function CategoryView({
                           {dist < 1 ? `${Math.round(dist * 1000)} m` : `${dist.toFixed(1)} km`}
                         </span>
                       )}
+                      {c.rating != null && (
+                        <span style={{ flexShrink: 0, fontSize: "0.6875rem", fontWeight: 600, color: "#92400e" }}>
+                          {"★".repeat(Math.round(Number(c.rating)))}{"☆".repeat(5 - Math.round(Number(c.rating)))} {Number(c.rating).toFixed(1)}{c.review_count ? ` (${c.review_count})` : ""}
+                        </span>
+                      )}
                     </div>
                     {c.address && (
                       <p style={{ marginTop: "0.15rem", fontSize: "0.75rem", color: "#9ca3af", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>

@@ -61,7 +61,7 @@ export default async function NeighborhoodPage({
 
   const { data: allCraftsmen } = await supabase
     .from("craftsmen_map_view")
-    .select("id, slug, business_name, address, phone, lat, lng, category_name")
+    .select("id, slug, business_name, address, phone, lat, lng, category_name, rating, review_count")
     .eq("category_slug", slug)
     .in("status", ["pending", "paid"]);
 

@@ -11,6 +11,8 @@ type Result = {
   phone: string | null;
   lat: number | null;
   lng: number | null;
+  rating?: number | null;
+  review_count?: number | null;
 };
 
 function haversineKm(lat1: number, lng1: number, lat2: number, lng2: number): number {
@@ -57,6 +59,11 @@ function Kartica({ r, userPos }: { r: Result; userPos: { lat: number; lng: numbe
           {dist !== null && (
             <span style={{ flexShrink: 0, borderRadius: "999px", background: "rgba(6,95,70,0.08)", padding: "0.1rem 0.45rem", fontSize: "0.625rem", color: "#065f46", fontWeight: 600 }}>
               {dist < 1 ? `${Math.round(dist * 1000)} m` : `${dist.toFixed(1)} km`}
+            </span>
+          )}
+          {r.rating != null && (
+            <span style={{ flexShrink: 0, fontSize: "0.6875rem", fontWeight: 600, color: "#92400e" }}>
+              {"★".repeat(Math.round(Number(r.rating)))}{"☆".repeat(5 - Math.round(Number(r.rating)))} {Number(r.rating).toFixed(1)}{r.review_count ? ` (${r.review_count})` : ""}
             </span>
           )}
         </div>

@@ -15,6 +15,8 @@ export type CategoryCraftsman = {
   lat: number;
   lng: number;
   category_name: string;
+  rating?: number | null;
+  review_count?: number | null;
 };
 
 const NS_CENTER: [number, number] = [45.2671, 19.8335];
