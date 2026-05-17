@@ -33,10 +33,7 @@ html, body {
 
 @media (min-width: 1024px) {
   .category-grid {
-    grid-template-columns: repeat(5, 1fr);
-  }
-  .category-grid > *:nth-child(16) {
-    grid-column-start: 2;
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 

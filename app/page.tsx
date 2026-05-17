@@ -65,7 +65,7 @@ export default function Home() {
             }}
           >
             <span style={{ color: "#f97316", fontSize: "0.6875rem", fontWeight: 600, letterSpacing: "0.15em", textTransform: "uppercase" }}>
-              500+ majstora u Novom Sadu
+              600+ majstora u Novom Sadu
             </span>
           </div>
 
@@ -106,19 +106,19 @@ export default function Home() {
       </section>
 
       {/* Kategorije */}
-      <section style={{ background: "#faf9f7", padding: "6rem 1.5rem" }}>
+      <section style={{ background: "#ffffff", padding: "6rem 1.5rem" }}>
         <div style={{ maxWidth: "72rem", margin: "0 auto" }}>
           <div style={{ marginBottom: "3rem" }}>
             <div
               className="inline-flex items-center rounded-full"
               style={{
-                background: "rgba(249,115,22,0.08)",
-                border: "1px solid rgba(249,115,22,0.15)",
+                background: "#ffffff",
+                border: "1px solid rgba(0,0,0,0.18)",
                 padding: "0.3rem 0.875rem",
                 marginBottom: "1.25rem",
               }}
             >
-              <span style={{ color: "#f97316", fontSize: "0.6875rem", fontWeight: 600, letterSpacing: "0.15em", textTransform: "uppercase" }}>
+              <span style={{ color: "#111827", fontSize: "0.6875rem", fontWeight: 600, letterSpacing: "0.15em", textTransform: "uppercase" }}>
                 Sve kategorije
               </span>
             </div>
@@ -146,25 +146,30 @@ export default function Home() {
       </section>
 
       {/* Kako funkcioniše */}
-      <section style={{ background: "#ffffff", padding: "6rem 1.5rem", borderTop: "1px solid #f3f4f6" }}>
+      <section style={{ background: "#f4f4f5", padding: "6rem 1.5rem" }}>
         <div style={{ maxWidth: "72rem", margin: "0 auto" }}>
           {/* Eyebrow */}
           <div
             className="inline-flex items-center rounded-full"
-            style={{ background: "#f3f4f6", padding: "0.3rem 0.875rem", marginBottom: "3.5rem" }}
+            style={{
+              background: "#f4f4f5",
+              border: "1px solid rgba(0,0,0,0.18)",
+              padding: "0.3rem 0.875rem",
+              marginBottom: "3.5rem",
+            }}
           >
-            <span style={{ color: "#6b7280", fontSize: "0.6875rem", fontWeight: 600, letterSpacing: "0.15em", textTransform: "uppercase" }}>
+            <span style={{ color: "#111827", fontSize: "0.6875rem", fontWeight: 600, letterSpacing: "0.15em", textTransform: "uppercase" }}>
               Kako funkcioniše
             </span>
           </div>
           <div style={{ display: "grid", gap: "3.5rem", gridTemplateColumns: "repeat(auto-fit, minmax(15rem, 1fr))" }}>
             {[
               { n: "01", title: "Odaberi zanat", body: "Izaberi od 18 kategorija: limar, električar, vodoinstalater i ostali." },
-              { n: "02", title: "Vidi ko je najbliži", body: "Mapa prikazuje sve majstore sortirane po udaljenosti od tebe." },
+              { n: "02", title: "Vidi ko je najbliži i najbolji", body: "Mapa prikazuje sve majstore sortirane po udaljenosti od tebe." },
               { n: "03", title: "Pozovi direktno", body: "Proveri radno vreme i pozovi. Bez posrednika, bez registracije." },
             ].map(({ n, title, body }) => (
               <div key={n}>
-                <span style={{ fontSize: "4.5rem", fontWeight: 800, color: "#f3f4f6", lineHeight: 1, display: "block" }}>
+                <span style={{ fontSize: "4.5rem", fontWeight: 800, color: "#f97316", lineHeight: 1, display: "block" }}>
                   {n}
                 </span>
                 <h3 style={{ fontSize: "1rem", fontWeight: 600, color: "#111827", marginTop: "1rem" }}>{title}</h3>
