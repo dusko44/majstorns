@@ -162,18 +162,18 @@ export default async function CraftsmanPage({
         <Link
           href={`/${c.category_slug}`}
           style={{
-            fontSize: "0.8125rem", fontWeight: 600, color: "rgba(255,255,255,0.7)", textDecoration: "none",
-            display: "inline-flex", alignItems: "center", gap: "0.25rem", marginBottom: "0.875rem",
+            fontSize: "1.25rem", fontWeight: 300, color: "rgba(255,255,255,0.7)", textDecoration: "none",
+            display: "inline-flex", alignItems: "center", marginBottom: "0.875rem",
           }}
         >
-          ← Nazad
+          ←
         </Link>
 
         <div
           style={{
             display: "inline-flex", alignItems: "center", borderRadius: "999px",
             background: "rgba(249,115,22,0.1)", border: "1px solid rgba(249,115,22,0.2)",
-            padding: "0.2rem 0.625rem", marginBottom: "0.625rem",
+            padding: "0.2rem 0.625rem", marginBottom: "0.625rem", marginLeft: "0.625rem",
           }}
         >
           <span style={{ fontSize: "0.625rem", color: "#f97316", fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase" }}>
