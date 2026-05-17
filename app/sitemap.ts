@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { createClient } from "@supabase/supabase-js";
 import { CATEGORIES } from "@/lib/categories";
+import { NEIGHBORHOODS } from "@/lib/neighborhoods";
 
 const BASE_URL = "https://majstorins.com";
 
@@ -39,5 +40,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     lastModified: c.updated_at ? new Date(c.updated_at) : now,
   }));
 
-  return [...staticPages, ...categoryPages, ...craftsmanPages];
+  const neighborhoodPages: MetadataRoute.Sitemap = CATEGORIES.flatMap((cat) =>
+    NEIGHBORHOODS.map((n) => ({
+      url: `${BASE_URL}/${cat.slug}/${n.slug}`,
+      changeFrequency: "weekly" as const,
+      priority: 0.7,
+      lastModified: now,
+    }))
+  );
+
+  return [...staticPages, ...categoryPages, ...neighborhoodPages, ...craftsmanPages];
 }
