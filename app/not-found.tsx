@@ -50,8 +50,7 @@ export default function NotFound() {
           lineHeight: 1.6,
         }}
       >
-        Možda je link pogrešan, ili je stranica uklonjena. Pronađi majstora iz
-        početka.
+        Možda je link pogrešan, ili je stranica uklonjena.
       </p>
 
       <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap", justifyContent: "center" }}>
