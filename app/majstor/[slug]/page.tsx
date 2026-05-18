@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Globe } from "lucide-react";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { CraftsmanMapWrapper } from "@/components/CraftsmanMapWrapper";
 import { getCategoryBySlug } from "@/lib/categories";
@@ -213,32 +214,39 @@ export default async function CraftsmanPage({
           <a
             href={`https://www.google.com/maps/dir/?api=1&destination=${c.lat},${c.lng}`}
             target="_blank" rel="noopener noreferrer"
-            style={{ display: "inline-flex", alignItems: "center", borderRadius: "999px", border: "1px solid rgba(255,255,255,0.15)", padding: "0.625rem 1rem", fontSize: "0.8125rem", fontWeight: 500, color: "rgba(255,255,255,0.75)", textDecoration: "none" }}
+            style={{ display: "inline-flex", alignItems: "center", borderRadius: "999px", border: "1px solid rgba(255,255,255,0.35)", padding: "0.625rem 1rem", fontSize: "0.8125rem", fontWeight: 500, color: "rgba(255,255,255,0.75)", textDecoration: "none" }}
           >
             📍 Google Maps
           </a>
           <a
             href={`https://waze.com/ul?ll=${c.lat},${c.lng}&navigate=yes`}
             target="_blank" rel="noopener noreferrer"
-            style={{ display: "inline-flex", alignItems: "center", borderRadius: "999px", border: "1px solid rgba(255,255,255,0.15)", padding: "0.625rem 1rem", fontSize: "0.8125rem", fontWeight: 500, color: "rgba(255,255,255,0.75)", textDecoration: "none" }}
+            style={{ display: "inline-flex", alignItems: "center", borderRadius: "999px", border: "1px solid rgba(255,255,255,0.35)", padding: "0.625rem 1rem", fontSize: "0.8125rem", fontWeight: 500, color: "rgba(255,255,255,0.75)", textDecoration: "none" }}
           >
             🧭 Waze
           </a>
           {c.viber && (
-            <a href={`viber://chat?number=${c.viber}`} style={{ display: "inline-flex", alignItems: "center", borderRadius: "999px", border: "1px solid rgba(255,255,255,0.15)", padding: "0.625rem 1rem", fontSize: "0.8125rem", fontWeight: 500, color: "rgba(255,255,255,0.75)", textDecoration: "none" }}>
+            <a href={`viber://chat?number=${c.viber}`} style={{ display: "inline-flex", alignItems: "center", borderRadius: "999px", border: "1px solid rgba(255,255,255,0.35)", padding: "0.625rem 1rem", fontSize: "0.8125rem", fontWeight: 500, color: "rgba(255,255,255,0.75)", textDecoration: "none" }}>
               Viber
             </a>
           )}
           {c.whatsapp && (
-            <a href={`https://wa.me/${c.whatsapp}`} target="_blank" rel="noopener noreferrer" style={{ display: "inline-flex", alignItems: "center", borderRadius: "999px", border: "1px solid rgba(255,255,255,0.15)", padding: "0.625rem 1rem", fontSize: "0.8125rem", fontWeight: 500, color: "rgba(255,255,255,0.75)", textDecoration: "none" }}>
+            <a href={`https://wa.me/${c.whatsapp}`} target="_blank" rel="noopener noreferrer" style={{ display: "inline-flex", alignItems: "center", borderRadius: "999px", border: "1px solid rgba(255,255,255,0.35)", padding: "0.625rem 1rem", fontSize: "0.8125rem", fontWeight: 500, color: "rgba(255,255,255,0.75)", textDecoration: "none" }}>
               WhatsApp
             </a>
           )}
-          {c.website && c.website.startsWith("http") && (
-            <a href={c.website} target="_blank" rel="noopener noreferrer" style={{ display: "inline-flex", alignItems: "center", borderRadius: "999px", border: "1px solid rgba(255,255,255,0.15)", padding: "0.625rem 1rem", fontSize: "0.8125rem", fontWeight: 500, color: "rgba(255,255,255,0.75)", textDecoration: "none" }}>
-              Sajt
-            </a>
-          )}
+          {c.website && c.website.startsWith("http") && (() => {
+            const display = c.website
+              .replace(/^https?:\/\/(www\.)?/, "")
+              .replace(/\/$/, "");
+            const label = display.length > 28 ? display.slice(0, 28) + "…" : display;
+            return (
+              <a href={c.website} target="_blank" rel="noopener noreferrer" style={{ display: "inline-flex", alignItems: "center", gap: "0.375rem", borderRadius: "999px", border: "1px solid rgba(255,255,255,0.35)", padding: "0.625rem 1rem", fontSize: "0.8125rem", fontWeight: 500, color: "rgba(255,255,255,0.75)", textDecoration: "none" }}>
+                <Globe size={14} strokeWidth={1.5} color="rgba(147,197,253,0.9)" />
+                {label}
+              </a>
+            );
+          })()}
         </div>
       </div>
 
