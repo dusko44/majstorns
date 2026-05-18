@@ -42,10 +42,10 @@ export default async function CategoryPage({
 
   const header = (
     <div style={{ background: "#0f0f0f", padding: "0.75rem 1.5rem 1rem" }}>
-      <Link href="/kategorije" style={{ fontSize: "0.8125rem", fontWeight: 600, color: "#d1d5db", textDecoration: "none", display: "inline-block", marginBottom: "0.5rem" }}>
-        ← Kategorije
+      <Link href="/kategorije" style={{ fontSize: "1.25rem", fontWeight: 300, color: "rgba(255,255,255,0.7)", textDecoration: "none", display: "inline-flex", alignItems: "center", marginBottom: "0.875rem" }}>
+        ←
       </Link>
-      <h1 style={{ fontSize: "1.125rem", fontWeight: 800, color: "#ffffff", letterSpacing: "-0.02em", lineHeight: 1.2 }}>
+      <h1 style={{ fontSize: "1.6875rem", fontWeight: 800, color: "#ffffff", letterSpacing: "-0.02em", lineHeight: 1.2 }}>
         {category.plural}
         <span style={{ color: "#f97316" }}> u Novom Sadu</span>
       </h1>
@@ -94,6 +94,13 @@ export default async function CategoryPage({
       <div>
         {header}
         <CategoryView craftsmen={craftsmen} />
+        <section style={{ background: "#faf9f7", borderTop: "1px solid rgba(0,0,0,0.07)" }}>
+          <div style={{ maxWidth: "80rem", margin: "0 auto", padding: "4rem 1.5rem 2rem" }}>
+            <p style={{ fontSize: "0.9375rem", lineHeight: 1.7, color: "#4b5563", margin: 0, whiteSpace: "pre-line" }}>
+              {category.description}
+            </p>
+          </div>
+        </section>
       </div>
     </>
   );

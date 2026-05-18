@@ -6,6 +6,7 @@ export type Category = {
   plural: string;
   iconKey: string;
   metaDescription: string;
+  description: string;
 };
 
 export type Neighborhood = {
