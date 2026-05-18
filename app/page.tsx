@@ -173,7 +173,7 @@ export default function Home() {
                   {n}
                 </span>
                 <h3 style={{ fontSize: "1rem", fontWeight: 600, color: "#111827", marginTop: "1rem" }}>{title}</h3>
-                <p style={{ fontSize: "0.875rem", color: "#6b7280", marginTop: "0.5rem", lineHeight: 1.7 }}>{body}</p>
+                <p style={{ fontSize: "0.875rem", color: "#6b7280", marginTop: "0.5rem", lineHeight: 1.7, textWrap: "balance" } as React.CSSProperties}>{body}</p>
               </div>
             ))}
           </div>
