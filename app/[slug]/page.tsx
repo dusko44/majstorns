@@ -1,9 +1,13 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { getCategoryBySlug } from "@/lib/categories";
+import { getCategoryBySlug, CATEGORIES } from "@/lib/categories";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { CategoryView } from "@/components/CategoryView";
+
+export function generateStaticParams() {
+  return CATEGORIES.map((cat) => ({ slug: cat.slug }));
+}
 
 export async function generateMetadata({
   params,

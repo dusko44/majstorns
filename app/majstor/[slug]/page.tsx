@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Globe } from "lucide-react";
+import { createClient } from "@supabase/supabase-js";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { CraftsmanMapWrapper } from "@/components/CraftsmanMapWrapper";
 import { getCategoryBySlug } from "@/lib/categories";
@@ -76,6 +77,18 @@ function buildOpeningHours(hours: Record<string, string>) {
     }
   }
   return specs;
+}
+
+export async function generateStaticParams() {
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
+  );
+  const { data } = await supabase
+    .from("craftsmen")
+    .select("slug")
+    .neq("status", "removed");
+  return (data ?? []).map((c) => ({ slug: c.slug }));
 }
 
 export async function generateMetadata({
