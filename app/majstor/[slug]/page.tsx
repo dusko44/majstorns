@@ -144,10 +144,11 @@ export default async function CraftsmanPage({
     .eq("category_slug", c.category_slug)
     .neq("slug", slug)
     .neq("status", "removed")
-    .limit(20);
+    .limit(200);
 
   const slicni = (slicniRaw ?? [])
-    .map((m) => ({ ...m, dist: haversineKm(c.lat, c.lng, m.lat, m.lng) }))
+    .filter((m) => m.lat != null && m.lng != null)
+    .map((m) => ({ ...m, dist: haversineKm(c.lat!, c.lng!, m.lat!, m.lng!) }))
     .sort((a, b) => a.dist - b.dist)
     .slice(0, 4);
 
@@ -341,7 +342,7 @@ export default async function CraftsmanPage({
       </div>
 
       {/* Slični majstori */}
-      {slicni && slicni.length > 0 && (
+      {slicni.length > 0 && (
         <div style={{ padding: "2rem 1.5rem", borderTop: "1px solid rgba(0,0,0,0.06)", background: "#faf9f7" }}>
           <h2 style={{ fontSize: "0.6875rem", fontWeight: 600, color: "#9ca3af", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "0.75rem", paddingLeft: "0.75rem" }}>
             Slični majstori u komšiluku
@@ -366,14 +367,17 @@ export default async function CraftsmanPage({
                       <span style={{ flexShrink: 0, borderRadius: "999px", background: "rgba(6,95,70,0.08)", padding: "0.1rem 0.45rem", fontSize: "0.625rem", color: "#065f46", fontWeight: 600 }}>
                         {m.dist < 1 ? `${Math.round(m.dist * 1000)} m` : `${m.dist.toFixed(1)} km`}
                       </span>
-                      {m.rating != null && (
-                        <span style={{ flexShrink: 0, fontSize: "0.6875rem", fontWeight: 600, color: "#92400e" }}>
-                          {"★".repeat(Math.round(Number(m.rating)))}{"☆".repeat(5 - Math.round(Number(m.rating)))} {Number(m.rating).toFixed(1)}{m.review_count ? ` (${m.review_count})` : ""}
-                        </span>
-                      )}
+                      {m.rating != null && (() => {
+                        const stars = Math.min(5, Math.max(1, Math.round(Number(m.rating))));
+                        return (
+                          <span style={{ flexShrink: 0, fontSize: "0.6875rem", fontWeight: 600, color: "#92400e" }}>
+                            {"★".repeat(stars)}{"☆".repeat(5 - stars)} {Number(m.rating).toFixed(1)}{m.review_count ? ` (${m.review_count})` : ""}
+                          </span>
+                        );
+                      })()}
                     </div>
                     {m.address && (
-                      <p style={{ marginTop: "0.15rem", fontSize: "0.75rem", color: "#9ca3af", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", margin: "0.15rem 0 0" }}>
+                      <p style={{ fontSize: "0.75rem", color: "#9ca3af", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", margin: "0.15rem 0 0" }}>
                         {m.address}
                       </p>
                     )}
