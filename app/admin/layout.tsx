@@ -8,7 +8,12 @@ async function logout() {
   redirect("/admin/login");
 }
 
-export default function AdminLayout({ children }: { children: React.ReactNode }) {
+export default async function AdminLayout({ children }: { children: React.ReactNode }) {
+  const cookieStore = await cookies();
+  if (cookieStore.get("admin_session")?.value !== process.env.ADMIN_SECRET) {
+    redirect("/admin/login");
+  }
+
   return (
     <div style={{ minHeight: "100vh", background: "#f4f4f4" }}>
       <div style={{ background: "#111", padding: "0.875rem 1.5rem", display: "flex", alignItems: "center", justifyContent: "space-between" }}>

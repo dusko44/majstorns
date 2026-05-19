@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
+import { headers } from "next/headers";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { checkRateLimit } from "@/lib/rate-limit";
 
 export const metadata: Metadata = {
   title: "Ukloni me iz direktorijuma",
@@ -9,6 +11,11 @@ export const metadata: Metadata = {
 
 async function submitOptOut(formData: FormData) {
   "use server";
+
+  const headerStore = await headers();
+  const ip = headerStore.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
+  const allowed = checkRateLimit(`opt-out:${ip}`, 5, 60);
+  if (!allowed) redirect("/opt-out?error=rate-limit");
 
   const businessName = (formData.get("business_name") as string)?.trim();
   const contactEmail = (formData.get("contact_email") as string)?.trim();
@@ -66,6 +73,11 @@ export default async function OptOutPage({
         brišemo ih u roku od 7 radnih dana.
       </p>
 
+      {error === "rate-limit" && (
+        <div className="mt-6 rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">
+          Previše zahteva. Pokušaj ponovo za minut.
+        </div>
+      )}
       {error === "not-found" && (
         <div className="mt-6 rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">
           Nismo pronašli radionicu sa tim imenom. Proveri naziv ili nas kontaktiraj direktno.

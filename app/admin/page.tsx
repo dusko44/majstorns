@@ -1,5 +1,14 @@
 import Link from "next/link";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 import { createAdminClient } from "@/lib/supabase/admin";
+
+async function requireAdmin() {
+  const cookieStore = await cookies();
+  if (cookieStore.get("admin_session")?.value !== process.env.ADMIN_SECRET) {
+    redirect("/admin/login");
+  }
+}
 
 const STATUS_LABEL: Record<string, string> = {
   pending: "Pending",
@@ -17,12 +26,14 @@ const STATUS_COLOR: Record<string, string> = {
 
 async function setContacted(id: string) {
   "use server";
+  await requireAdmin();
   const supabase = createAdminClient();
   await supabase.from("craftsmen").update({ status: "contacted" }).eq("id", id);
 }
 
 async function setPaid(id: string) {
   "use server";
+  await requireAdmin();
   const supabase = createAdminClient();
   const paidUntil = new Date();
   paidUntil.setFullYear(paidUntil.getFullYear() + 1);
@@ -34,12 +45,14 @@ async function setPaid(id: string) {
 
 async function setRemoved(id: string) {
   "use server";
+  await requireAdmin();
   const supabase = createAdminClient();
   await supabase.from("craftsmen").update({ status: "removed" }).eq("id", id);
 }
 
 async function setRestored(id: string) {
   "use server";
+  await requireAdmin();
   const supabase = createAdminClient();
   await supabase.from("craftsmen").update({ status: "pending" }).eq("id", id);
 }
