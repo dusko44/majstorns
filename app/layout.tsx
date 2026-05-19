@@ -11,7 +11,7 @@ const manrope = Manrope({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://majstorins.com"),
+  metadataBase: new URL("https://majstorins.com/"),
   title: {
     default: "MajstoriNS — Direktorijum majstora u Novom Sadu",
     template: "%s | MajstoriNS",
