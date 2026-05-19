@@ -154,7 +154,7 @@ export default async function CraftsmanPage({
   const category = getCategoryBySlug(c.category_slug);
   const baseDesc = category?.description?.split("\n\n")[0] ?? null;
   const categoryDesc = baseDesc
-    ? `${baseDesc} ${c.business_name} prima pozive i vrši usluge${c.address ? ` na adresi ${c.address}` : " u Novom Sadu"}.`
+    ? `${baseDesc} ${c.business_name} prima pozive${c.address ? `, a na adresi je ${c.address}` : " u Novom Sadu"}.`
     : null;
 
   const todayKey = JS_TO_DAY[new Date().getDay()];
