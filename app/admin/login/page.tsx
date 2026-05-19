@@ -1,8 +1,14 @@
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
+import { checkRateLimit } from "@/lib/rate-limit";
 
 async function login(formData: FormData) {
   "use server";
+  const headerStore = await headers();
+  const ip = headerStore.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
+  const allowed = checkRateLimit(`admin-login:${ip}`, 5, 60);
+  if (!allowed) redirect("/admin/login?error=rate-limit");
+
   const { ADMIN_PASSWORD, ADMIN_SECRET } = process.env;
   if (!ADMIN_PASSWORD || !ADMIN_SECRET) {
     throw new Error("ADMIN_PASSWORD and ADMIN_SECRET env vars must be set");
@@ -39,7 +45,12 @@ export default async function LoginPage({
           Unesite lozinku za pristup
         </p>
 
-        {error && (
+        {error === "rate-limit" && (
+          <p style={{ fontSize: "0.875rem", color: "#dc2626", marginBottom: "1rem" }}>
+            Previše pokušaja. Pokušaj ponovo za minut.
+          </p>
+        )}
+        {error && error !== "rate-limit" && (
           <p style={{ fontSize: "0.875rem", color: "#dc2626", marginBottom: "1rem" }}>
             Pogrešna lozinka.
           </p>
