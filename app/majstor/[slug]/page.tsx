@@ -1,11 +1,12 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Globe } from "lucide-react";
+import { Globe, MapPin, Navigation } from "lucide-react";
 import { createClient } from "@supabase/supabase-js";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { CraftsmanMapWrapper } from "@/components/CraftsmanMapWrapper";
 import { getCategoryBySlug } from "@/lib/categories";
+import { haversineKm } from "@/lib/geo";
 
 const DAYS_SR: Record<string, string> = {
   monday: "Ponedeljak",
@@ -137,6 +138,25 @@ export default async function CraftsmanPage({
 
   if (!c) notFound();
 
+  const { data: slicniRaw } = await supabase
+    .from("craftsmen_map_view")
+    .select("slug, business_name, address, lat, lng, phone, rating, review_count")
+    .eq("category_slug", c.category_slug)
+    .neq("slug", slug)
+    .neq("status", "removed")
+    .limit(20);
+
+  const slicni = (slicniRaw ?? [])
+    .map((m) => ({ ...m, dist: haversineKm(c.lat, c.lng, m.lat, m.lng) }))
+    .sort((a, b) => a.dist - b.dist)
+    .slice(0, 4);
+
+  const category = getCategoryBySlug(c.category_slug);
+  const baseDesc = category?.description?.split("\n\n")[0] ?? null;
+  const categoryDesc = baseDesc
+    ? `${baseDesc} ${c.business_name} prima pozive i vrši usluge${c.address ? ` na adresi ${c.address}` : " u Novom Sadu"}.`
+    : null;
+
   const todayKey = JS_TO_DAY[new Date().getDay()];
   const rawHours = c.working_hours as Record<string, unknown> | null;
   const hours = rawHours ? normalizeHours(rawHours) : null;
@@ -210,8 +230,9 @@ export default async function CraftsmanPage({
           </div>
         )}
         {c.address && (
-          <p style={{ fontSize: "0.875rem", color: "#ffffff", marginBottom: "1.25rem" }}>
-            📍 {c.address}
+          <p style={{ display: "flex", alignItems: "center", gap: "0.375rem", fontSize: "0.875rem", color: "#ffffff", marginBottom: "1.25rem" }}>
+            <MapPin size={14} strokeWidth={1.5} color="rgba(255,255,255,0.6)" style={{ flexShrink: 0 }} />
+            {c.address}
           </p>
         )}
 
@@ -227,16 +248,16 @@ export default async function CraftsmanPage({
           <a
             href={`https://www.google.com/maps/dir/?api=1&destination=${c.lat},${c.lng}`}
             target="_blank" rel="noopener noreferrer"
-            style={{ display: "inline-flex", alignItems: "center", borderRadius: "999px", border: "1px solid rgba(255,255,255,0.35)", padding: "0.625rem 1rem", fontSize: "0.8125rem", fontWeight: 500, color: "rgba(255,255,255,0.75)", textDecoration: "none" }}
+            style={{ display: "inline-flex", alignItems: "center", gap: "0.375rem", borderRadius: "999px", border: "1px solid rgba(255,255,255,0.35)", padding: "0.625rem 1rem", fontSize: "0.8125rem", fontWeight: 500, color: "rgba(255,255,255,0.75)", textDecoration: "none" }}
           >
-            📍 Google Maps
+            <MapPin size={13} strokeWidth={1.5} style={{ flexShrink: 0 }} /> Google Maps
           </a>
           <a
             href={`https://waze.com/ul?ll=${c.lat},${c.lng}&navigate=yes`}
             target="_blank" rel="noopener noreferrer"
-            style={{ display: "inline-flex", alignItems: "center", borderRadius: "999px", border: "1px solid rgba(255,255,255,0.35)", padding: "0.625rem 1rem", fontSize: "0.8125rem", fontWeight: 500, color: "rgba(255,255,255,0.75)", textDecoration: "none" }}
+            style={{ display: "inline-flex", alignItems: "center", gap: "0.375rem", borderRadius: "999px", border: "1px solid rgba(255,255,255,0.35)", padding: "0.625rem 1rem", fontSize: "0.8125rem", fontWeight: 500, color: "rgba(255,255,255,0.75)", textDecoration: "none" }}
           >
-            🧭 Waze
+            <Navigation size={13} strokeWidth={1.5} style={{ flexShrink: 0 }} /> Waze
           </a>
           {c.viber && (
             <a href={`viber://chat?number=${c.viber}`} style={{ display: "inline-flex", alignItems: "center", borderRadius: "999px", border: "1px solid rgba(255,255,255,0.35)", padding: "0.625rem 1rem", fontSize: "0.8125rem", fontWeight: 500, color: "rgba(255,255,255,0.75)", textDecoration: "none" }}>
@@ -262,6 +283,15 @@ export default async function CraftsmanPage({
           })()}
         </div>
       </div>
+
+      {/* Opis usluga */}
+      {categoryDesc && (
+        <div style={{ padding: "1.5rem", background: "#ffffff", borderBottom: "1px solid rgba(0,0,0,0.06)" }}>
+          <p style={{ fontSize: "0.9375rem", color: "#374151", lineHeight: 1.7, margin: 0 }}>
+            {categoryDesc}
+          </p>
+        </div>
+      )}
 
       {/* Mapa + radno vreme */}
       <div className="craftsman-map-section">
@@ -309,6 +339,68 @@ export default async function CraftsmanPage({
             </div>
           )}
       </div>
+
+      {/* Slični majstori */}
+      {slicni && slicni.length > 0 && (
+        <div style={{ padding: "2rem 1.5rem", borderTop: "1px solid rgba(0,0,0,0.06)", background: "#faf9f7" }}>
+          <h2 style={{ fontSize: "0.6875rem", fontWeight: 600, color: "#9ca3af", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "0.75rem", paddingLeft: "0.75rem" }}>
+            Slični majstori u komšiluku
+          </h2>
+          <div style={{ display: "flex", flexDirection: "column", gap: "0.375rem" }}>
+            {slicni.map((m) => (
+              <div
+                key={m.slug}
+                style={{
+                  borderRadius: "0.75rem",
+                  border: "1px solid rgba(0,0,0,0.07)",
+                  background: "#ffffff",
+                  padding: "0.625rem 0.75rem",
+                }}
+              >
+                <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: "0.5rem" }}>
+                  <div style={{ minWidth: 0, flex: 1 }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: "0.375rem", flexWrap: "wrap" }}>
+                      <span style={{ fontWeight: 700, color: "#111827", fontSize: "0.875rem", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                        {m.business_name}
+                      </span>
+                      <span style={{ flexShrink: 0, borderRadius: "999px", background: "rgba(6,95,70,0.08)", padding: "0.1rem 0.45rem", fontSize: "0.625rem", color: "#065f46", fontWeight: 600 }}>
+                        {m.dist < 1 ? `${Math.round(m.dist * 1000)} m` : `${m.dist.toFixed(1)} km`}
+                      </span>
+                      {m.rating != null && (
+                        <span style={{ flexShrink: 0, fontSize: "0.6875rem", fontWeight: 600, color: "#92400e" }}>
+                          {"★".repeat(Math.round(Number(m.rating)))}{"☆".repeat(5 - Math.round(Number(m.rating)))} {Number(m.rating).toFixed(1)}{m.review_count ? ` (${m.review_count})` : ""}
+                        </span>
+                      )}
+                    </div>
+                    {m.address && (
+                      <p style={{ marginTop: "0.15rem", fontSize: "0.75rem", color: "#9ca3af", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", margin: "0.15rem 0 0" }}>
+                        {m.address}
+                      </p>
+                    )}
+                  </div>
+                </div>
+                <div style={{ marginTop: "0.5rem", display: "flex", alignItems: "center", gap: "0.3rem", flexWrap: "wrap" }}>
+                  <Link
+                    href={`/majstor/${m.slug}`}
+                    style={{ borderRadius: "0.5rem", background: "#111827", padding: "0.3rem 0.625rem", fontSize: "0.6875rem", fontWeight: 600, color: "#ffffff", textDecoration: "none", flexShrink: 0 }}
+                  >
+                    Profil →
+                  </Link>
+                  {m.phone && (
+                    <a
+                      href={`tel:${m.phone}`}
+                      style={{ display: "inline-flex", alignItems: "center", gap: "0.25rem", fontSize: "0.6875rem", fontWeight: 600, color: "#f97316", textDecoration: "none", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}
+                    >
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.6 3.45 2 2 0 0 1 3.57 1.24h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.78a16 16 0 0 0 6.29 6.29l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                      {m.phone}
+                    </a>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </>
   );
 }
